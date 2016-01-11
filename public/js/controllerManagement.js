@@ -1,4 +1,3 @@
-      
 ///cargo
 function SelectController2(valueSe){
 if(valueSe.text() == 'Crear - Editar')
@@ -160,6 +159,8 @@ $("#PUESTO").append('fila');
    
   });
     $("#PUESTO").append('<option value="NULL" >Crear - Editar</option>');
+
+    $("#CPADR").html($("#PUESTO").html());
 }
 
 //Actualiza todos los Puestos de trabajo
@@ -243,13 +244,13 @@ console.log(frmdep);
 
 $( "#logo_oferta" ).click(function() {
     if($('#CARGO').val()!="NULL")
-      var carg =$('#CARGO').serialize();
+      {var carg =$('#CARGO').serialize();
     carg=carg.replace('CARGO','PUESTO');
     console.log(carg);
     fajax(carg, '<?php echo URL; ?>/management/busca_departamento',buscar_cargo);
     
     $('#cargo_trabajo').openModal();
-
+}
 });
 
 
@@ -260,23 +261,3 @@ $( "#logo_departamento" ).click(function() {
     $('#departamento_modal').openModal();
 
 });
-
-function limpiaForm(miForm) {
-// recorremos todos los campos que tiene el formulario
-$('#DNOMB').attr('Did', "");
-$('#CNOMB').attr('Did', "");
-$(':input', miForm).each(function() {
-var type = this.type;
-var tag = this.tagName.toLowerCase();
-//limpiamos los valores de los campos…
-if (type == 'text' || type == 'password' || tag == 'textarea')
-this.value = "";
-// excepto de los checkboxes y radios, le quitamos el checked
-// pero su valor no debe ser cambiado
-else if (type == 'checkbox' || type == 'radio')
-this.checked = true;
-// los selects le ponesmos el indice a -
-else if (tag == 'select')
-this.selectedIndex = 0;
-});
-}

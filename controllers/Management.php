@@ -2,7 +2,7 @@
 
 Class Management extends Controller{
 	public function __construct(){
-		parent::__construct();
+		parent:: __construct();
 	}
 
 	   //Cargamos la vista index del usuario
@@ -45,7 +45,9 @@ Class Management extends Controller{
 
 
          public function getall_fase(){
-                echo json_encode($this->model->getallFase());    
+                $data = ["FMO_TDES" => "'".$_POST["TDES"]."'"];  
+            
+                echo json_encode($this->model->getallFase($data));    
         }
 
 
@@ -56,8 +58,25 @@ Class Management extends Controller{
 
         //_______________Creamos el registro en SSP_CONCURSO_______________//
         public function insert_concurso(){
-       
-        $this->creaconcurso_2();
+
+            
+      
+        if(!empty($_POST["CODI"]) && isset($_POST["CODI"]) && !empty($_POST["NOMB"]) && isset($_POST["NOMB"]) && !empty($_POST["NVAC"]) && isset($_POST["NVAC"]) && !empty($_POST["VALO"]) && isset($_POST["VALO"]) && !empty($_POST["VALM"]) && isset($_POST["VALM"]) && !empty($_POST["CARGO"]) && ($_POST["CARGO"] != 'NULL') && isset($_POST["CARGO"]) && !empty($_POST["DESC"]) && isset($_POST["DESC"]))
+          {
+            $cabecera_concurso = [
+                "CON_NOMB" => "'".$this->Mayus($_POST["NOMB"])."'", 
+                "CON_DESC" => "'".$_POST["DESC"]."'",   
+                "CON_VALM" => "'".$_POST["VALM"]."'"    ,
+                "CON_VALO" => "'".$_POST["VALO"]."'"    ,
+                "CON_CODI" => "'".$_POST["CODI"]."'"    ,
+                "PTR_ID" => "'".$_POST["CARGO"]."'"    ,
+                "CON_NVAC" => "'".$_POST["NVAC"]."'"    
+                ];  
+                $CONCURSO_DATOS=["SSP_CONCURSO" => $cabecera_concurso];
+                
+                echo json_encode($this->model->setConcurso($CONCURSO_DATOS));
+
+           }else echo "Hola2";
 
         }
         //__________________________________________________________________//
@@ -192,9 +211,7 @@ Class Management extends Controller{
         
         }
         
-        public function creaconcurso_2(){
-        $this->view->render($this, 'creaconcurso_2');
-        }
+        
         
         private function Mayus($variable) {
         $variable = strtr(strtoupper($variable),"àèìòùáéíóúçñäëïöü","ÀÈÌÒÙÁÉÍÓÚÇÑÄËÏÖÜ");

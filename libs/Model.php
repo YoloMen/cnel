@@ -4,10 +4,10 @@ Class Model{
 
 	private static $_instance;
     
-	private function __construct(){
-        //$this->db = new PDOManager('mysql', 'localhost', 'root', '', 'ssp_test');
+	public function __construct(){
+        $this->db = new PDOManager('mysql', 'localhost', 'root', '', 'ssp_test');
 	}
-
+/*
 	public static function getInstance(){
  
         if(!isset(self::$_instance)){
@@ -20,7 +20,7 @@ Class Model{
  
         return self::$_instance;
  
-    }
+    }*/
 }
 
 ?>

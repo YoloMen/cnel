@@ -123,7 +123,7 @@
 
                             <div class="input-field col l6 m6 s12">
 
-                                <textarea id="DESC" class="materialize-textarea"></textarea>
+                                <textarea id="DESC" name="DESC"  class="materialize-textarea"></textarea>
                                 <label for="DESC">Descripción</label>
                             </div>
 
@@ -132,32 +132,31 @@
 
                     </div>
                      </form>
-                     <form id="parametrosConcurso" >
-            <div class="row ">
-                <div class="container ">
                     
 
+                     <form id="parametrosConcurso" >
+            
                     
                     <div class="col  s12  m12 l12 z-depth-1">
                         <div class="container " style="padding-bottom:100px;">
 
 
 
-                            <div class="input-field col l3 m4 s12">
+                            <div class="input-field col l4 m4 s12">
 
 
-                                <select id="" class="browser-default" required >
+                                <select id="TDES" name="TDES"  class="browser-default" required >
                                     <option value="NULL" selected>Tipo Parámetro</option>
-                                    <option value="" >Requerimientos</option>
-                                    <option value="" >Pruebas</option>
-                                    <option value="" >Entrevistas</option>
+                                    <option value="E" >Entrevista</option>
+                                    <option value="P">Prueba</option>
+                                    <option value="R">Requerimiento</option>
 
 
                                 </select>
 
                             </div>
 
-                            <div class="input-field col l3 m1 s12">
+                            <div class="input-field col l4 m1 s12">
 
                                 <select id="CFASE" name="CFASE" class="browser-default" required onchange ="SelectController3($('option:selected', this));" >
                                     <option value="NULL" selected >Fase</option>
@@ -167,30 +166,37 @@
 
                                 </select>
                             </div>
-                            <div class="input-field col l1 m1 s1"  >
+                           
+                            <div class="input-field col l4 m1 s1"  >
                                 <a id="logo_param" onclick=""><i class="material-icons small" >open_in_new</i></a>  
                             </div>
 
-                            <div class="input-field col l3 m4 s12">
-                                <input id="last_name" type="number" class="validate">
+                            
+                            <div class="input-field col l4 m4 s12">
+                                 <input id="BFINI" name="BFINI"  type="date" class="datepicker">
+                                <label class="active" for="BFINI">Fecha Inicial</label>
+                            </div>
+                            <div class="input-field col l4 m4 s12">
+                                 <input id="BFFIN" name="BFFIN" type="date" class="datepicker">
+                                  <label class="active" for="BFFIN">Fecha Final</label>
+                            </div>
+
+                            <div class="input-field col l2 m4 s12">
+                                <input id="BVALO" name="BVALO" type="number" class="validate">
                                 <label for="last_name">Valor</label>
                             </div>
 
-                            <div class="input-field col l2 m1 s1"  >
-                                <a id="logo_param" onclick=""><i class="material-icons small" >playlist_add</i></a>  
+                            <div  class="input-field col l1 m1 s1"  >
+                                <a id="G_fase" ><i class="material-icons small" >playlist_add</i></a>  
                             </div>
 
                         </div>
 
 
                     </div>
-                                
-                </div>
-            </div>
+       
 
 
-            <div class="row ">
-                <div class="container ">
 
                     <div class="col  s12  m12 l12 z-depth-1">
                         <div class="container " style="padding-bottom:100px;">
@@ -211,7 +217,7 @@
                                     </tr>
                                 </thead>
 
-                                <tbody>
+                                <tbody id="detalle_fases">
                                     <tr>
                                         <td>Entrevista Técnica</td>
                                         <td>Entrevista</td>
@@ -241,8 +247,7 @@
 
                     </div>
 
-                </div>
-            </div>
+      
             </form>
 
                      
@@ -254,7 +259,11 @@
             </div>
             
           
-
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red" id="save_all">
+      <i class="large material-icons">save</i>
+    </a>
+  </div>
         </main>   
         <!-- Modal Fases -->
         <div id="parametros" class="modal">
@@ -498,19 +507,37 @@
     <script src="<?php echo URL; ?>/public/js/lunr.min.js"></script>
     <script>var URL = '<?=URL?>';</script>
     <script type="text/javascript">
+
+//_________________CONSURSOENCABEZADO____________________________
+//CREA CONCURSO
+$( "#save_all" ).click(function() {
+var cabecera_concurso = $('#cabeceraConcurso :input').serialize();
+console.log(cabecera_concurso);
+ fajax(cabecera_concurso, '<?php echo URL; ?>/management/insert_concurso',crea_cabconcurso);
+
+});
+
+function crea_cabconcurso(response){
+ var obj = JSON.parse(response);
+ console.log(obj);
+// Materialize.toast(obj['Mensaje'],2000);
+}
+
+
 //_________________FASE CONCURSO____________________________
 //CREA FASE
 function guardar_fase(response){
  $('#departamento_modal').closeModal();
  var obj = JSON.parse(response);
  Materialize.toast(obj['Mensaje'],2000);
- fajax("", '<?php echo URL; ?>/management/getall_fase',actualiza_allfases);
+
 }
 
 //Actualiza todos fases
 function actualiza_allfases(response){
   var obj = JSON.parse(response);
-  $("#CFASE").empty();
+
+ $("#CFASE").empty();
    $("#CFASE").append('<option value="NULL" selected>Elija Fase</option>');
  
 $("#CFASE").append('fila');
@@ -527,6 +554,18 @@ console.log(obj);
 
 }
 
+//Actualiza fases
+$( "#TDES" ).change(function() {
+
+ if($('#TDES').val()!="NULL")
+   {
+    
+ fajax($('#TDES').serialize(), '<?php echo URL; ?>/management/getall_fase',actualiza_allfases);
+    }
+
+
+});
+
 
 
 $( "#logo_param" ).click(function() {
@@ -537,6 +576,30 @@ $( "#logo_param" ).click(function() {
     
     $('#logo_param').openModal();
 }
+});
+
+
+///Event handler click agregar detalle fase
+$( "#G_fase" ).click(function() {
+var faseC= $('#parametrosConcurso :input').serialize();
+     
+    if($('#IFNOMB').attr('Did')== "") //Actualiza
+    {
+    
+    console.log(frmser);
+    fajax(frmser, '<?php echo URL; ?>/management/crea_fase',guardar_fase);
+
+     }
+    else 
+    {
+    frmdep+="&DID="+$('#DNOMB').attr('Did'); //AGREGAMOS EL ID PARA SU EDICION
+    
+    fajax(frmser, '<?php echo URL; ?>/management/actualiza_departamento',actualiza_departamento);
+
+    }
+       
+     
+
 });
 
 
@@ -568,6 +631,8 @@ function SelectController3(valueSe){
 if(valueSe.text() == 'Crear - Editar')
     {
         limpiaForm($('#form_fases'));
+         if ($('#TDES').val() != 'NULL')
+        $('#IFTDES').val($('#TDES').val());
         $('#parametros').openModal();
         $('#logo_param').show();
     }
@@ -607,7 +672,7 @@ switch(param)
 
         $(document).ready(function () {
              seccionS('CC');
-                fajax("", '<?php echo URL; ?>/management/getall_fase',actualiza_allfases);
+                
             $('#logo_departamento').hide();
             $('#logo_oferta').hide();
             

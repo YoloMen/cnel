@@ -6,8 +6,19 @@ Class Management_model extends Model {
         parent::__construct();
     }
     
-    public function setConcurso() {
-       return $this->db->select('LOC_ID, LOC_NOMB','ssp_localidad', 'FK_LOID = 1', PDO::FETCH_NUM);        
+    public function setConcurso($CONCURSO_DATOS) {
+      
+      $cabecera_concurso=$CONCURSO_DATOS['SSP_CONCURSO'];
+
+      
+      $result = $this->db->select('CON_CODI','SSP_CONCURSO', "CON_CODI = ".$cabecera_concurso['CON_CODI'], PDO::FETCH_NUM);
+
+       if(sizeof($result)>0)
+        return  $data=["Mensaje" => "Ingreso Incorrecto. El concurso ".$cabecera_concurso['CON_CODI']." ya existe" ];
+       else
+        $this->db-> insert('SSP_CONCURSO',$CONCURSO_DATOS['SSP_CONCURSO']); 
+        return  $data=["Mensaje" => "Ingreso Correctamente" ];
+
     }
 
     //Consulta todos los departamentos
@@ -60,8 +71,8 @@ Class Management_model extends Model {
     }
 
     //OBTENER LAS FASES 
-    public function getallFase() {
-    return $this->db->select('*','SSP_FASE_MO', '', PDO::FETCH_NUM);        
+    public function getallFase($FMO_DATOS) {
+    return $this->db->select('*','SSP_FASE_MO', 'FMO_TDES='.$FMO_DATOS['FMO_TDES'], PDO::FETCH_NUM);        
       
       
     }

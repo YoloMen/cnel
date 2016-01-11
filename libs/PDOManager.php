@@ -50,7 +50,7 @@ class PDOManager extends PDO{
 	public function select($attr,$table,$where = '',$fetchMode = PDO::FETCH_ASSOC){
 		$where = ($where != '' ||  $where != null) ? "WHERE ".$where : '';
 		$sql = "SELECT ".$attr." FROM ".$table." ".$where.";";
-		
+		//echo($sql);
 		$result = $this->prepare($sql);
                 
         $result->execute();    
@@ -119,7 +119,7 @@ class PDOManager extends PDO{
 
                $sql = "INSERT INTO ".$table." (".$columnas.") VALUES(".$valores.");";
               
-            
+            	
                $result = $this->prepare($sql);
                if($bind){
                        foreach ($values as $key => $value) {
