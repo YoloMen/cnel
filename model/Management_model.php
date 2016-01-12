@@ -17,10 +17,24 @@ Class Management_model extends Model {
         return  $data=["Mensaje" => "Ingreso Incorrecto. El concurso ".$cabecera_concurso['CON_CODI']." ya existe" ];
        else
         $this->db-> insert('SSP_CONCURSO',$CONCURSO_DATOS['SSP_CONCURSO']); 
+        
+        $result1 = $this->db->select('CON_ID','SSP_CONCURSO', "CON_CODI = ".$cabecera_concurso['CON_CODI'], PDO::FETCH_NUM);
+         if(sizeof($result1)>0)
+
+        return  $data=["Mensaje" => "Ingreso Correctamente" , "Concurso_" => $result1[0][0] ];
+
+    }
+    //Inserta las fases al concurso
+    public function setBaseConcurso($base_concurso) {
+      $check=$this->db->check('*','SSP_BASE_CONCURSO', "CON_ID = ".$base_concurso['CON_ID']. " AND FMO_ID=".$base_concurso['FMO_ID']);
+      if(!$check)
+       
+        $this->db-> insert('SSP_BASE_CONCURSO',$base_concurso); 
+        
+
         return  $data=["Mensaje" => "Ingreso Correctamente" ];
 
     }
-
     //Consulta todos los departamentos
     public function getallDepartamentos($PTR_ESTA = "H") {
        return $this->db->select('PTR_ID, PTR_NOMB ,PTR_PADR , PTR_ESTA','SSP_PUESTO_TRABAJO', "PTR_TIPO = 'D' AND PTR_ESTA IN ('$PTR_ESTA')", PDO::FETCH_NUM);        
@@ -66,10 +80,17 @@ Class Management_model extends Model {
         return  $data=["Mensaje" => "Ingreso Incorrecto. La fase ".$FMO_DATOS['FMO_NOMB']." ya existe" ];
        else
        $this->db-> insert('SSP_FASE_MO',$FMO_DATOS); 
+
         return  $data=["Mensaje" => "Ingreso Correctamente" ];
       
     }
 
+    //OBTENER LAS FASES DE UN CONCURSO
+    public function getall_faseconcurso($DATOS) {
+    return $this->db->select('*','SSP_BASE_CONCURSO', 'CON_ID='.$DATOS['CON_ID'], PDO::FETCH_NUM);        
+      
+      
+    }
     //OBTENER LAS FASES 
     public function getallFase($FMO_DATOS) {
     return $this->db->select('*','SSP_FASE_MO', 'FMO_TDES='.$FMO_DATOS['FMO_TDES'], PDO::FETCH_NUM);        

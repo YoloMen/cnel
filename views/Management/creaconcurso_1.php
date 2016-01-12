@@ -171,7 +171,7 @@
                                 <a id="logo_param" onclick=""><i class="material-icons small" >open_in_new</i></a>  
                             </div>
 
-                            
+                            <div class="input-field col l12 m12 s12">
                             <div class="input-field col l4 m4 s12">
                                  <input id="BFINI" name="BFINI"  type="date" class="datepicker">
                                 <label class="active" for="BFINI">Fecha Inicial</label>
@@ -181,15 +181,15 @@
                                   <label class="active" for="BFFIN">Fecha Final</label>
                             </div>
 
-                            <div class="input-field col l2 m4 s12">
+                            <div class="input-field col l3 m4 s12">
                                 <input id="BVALO" name="BVALO" type="number" class="validate">
                                 <label for="last_name">Valor</label>
                             </div>
 
                             <div  class="input-field col l1 m1 s1"  >
-                                <a id="G_fase" ><i class="material-icons small" >playlist_add</i></a>  
+                                <a id="G_fase" class="center-align" ><i class="material-icons small" >playlist_add</i></a>  
                             </div>
-
+                            </div>
                         </div>
 
 
@@ -510,6 +510,7 @@
 
 //_________________CONSURSOENCABEZADO____________________________
 //CREA CONCURSO
+var CONCID_;
 $( "#save_all" ).click(function() {
 var cabecera_concurso = $('#cabeceraConcurso :input').serialize();
 console.log(cabecera_concurso);
@@ -519,12 +520,26 @@ console.log(cabecera_concurso);
 
 function crea_cabconcurso(response){
  var obj = JSON.parse(response);
+ CONCID_=obj['Concurso_'];
  console.log(obj);
 // Materialize.toast(obj['Mensaje'],2000);
 }
 
 
 //_________________FASE CONCURSO____________________________
+//Tabla Fases_concurso
+function CALL_actualiza_tabla_fases(){
+
+  param={'CONID' : CONCID_};
+ fajax(param, '<?php echo URL; ?>/management/getall_fase_concurso',actualiza_tabla_fases);
+}
+
+function actualiza_tabla_fases(response){
+  var obj = JSON.parse(response);
+ console.log(obj);
+}
+
+
 //CREA FASE
 function guardar_fase(response){
  $('#departamento_modal').closeModal();
@@ -532,6 +547,14 @@ function guardar_fase(response){
  Materialize.toast(obj['Mensaje'],2000);
 
 }
+
+function insert_base_concurso(response){
+
+ var obj = JSON.parse(response);
+ Materialize.toast(obj['Mensaje'],2000);
+CALL_actualiza_tabla_fases();
+}
+
 
 //Actualiza todos fases
 function actualiza_allfases(response){
@@ -581,23 +604,16 @@ $( "#logo_param" ).click(function() {
 
 ///Event handler click agregar detalle fase
 $( "#G_fase" ).click(function() {
-var faseC= $('#parametrosConcurso :input').serialize();
+  if(CONCID_ != null && CONCID_!= '')
+  {
+    var faseC= $('#parametrosConcurso :input').serialize();
+     faseC+= '&CONID='+CONCID_; 
      
-    if($('#IFNOMB').attr('Did')== "") //Actualiza
-    {
-    
-    console.log(frmser);
-    fajax(frmser, '<?php echo URL; ?>/management/crea_fase',guardar_fase);
+      fajax(faseC, '<?php echo URL; ?>/management/insert_base_concurso',insert_base_concurso);
 
-     }
-    else 
-    {
-    frmdep+="&DID="+$('#DNOMB').attr('Did'); //AGREGAMOS EL ID PARA SU EDICION
-    
-    fajax(frmser, '<?php echo URL; ?>/management/actualiza_departamento',actualiza_departamento);
-
-    }
-       
+  }
+  else
+    Materialize.toast('Concurso no definido',2000);
      
 
 });

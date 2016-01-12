@@ -53,7 +53,50 @@ Class Management extends Controller{
 
         
         //__________________________________________________________________//
+          //_______________Buscamos el registro en SSP_BASE_CONCURSO_______________//
+        public function getall_fase_concurso(){
 
+            
+      
+        if(!empty($_POST["CONID"]) && isset($_POST["CONID"])) 
+        {
+            $DATA = [
+               
+                "CON_ID" => "'".$_POST["CONID"]."'"    
+                
+                
+                ];  
+               
+                
+                echo json_encode($this->model->getall_faseconcurso($DATA));
+
+           }else echo "Hola2";
+
+        }
+         //_______________Creamos el registro en SSP_BASE_CONCURSO_______________//
+        public function insert_base_concurso(){
+
+            
+      
+        if(!empty($_POST["CONID"]) && isset($_POST["CONID"]) && !empty($_POST["CFASE"]) && isset($_POST["CFASE"]) &&  !empty($_POST["BFINI"]) && isset($_POST["BFINI"]) && !empty($_POST["BFFIN"]) && isset($_POST["BFFIN"]) && !empty($_POST["BVALO"])  && isset($_POST["BVALO"]) )
+          {
+            $base_concurso = [
+                "FMO_ID" => "'".$_POST["CFASE"]."'", 
+                
+                "BCO_FFIN" => "'".$_POST["BFFIN"]."'"    ,
+                "BCO_FINI" => "'".$_POST["BFINI"]."'"    ,
+                "CON_ID" => "'".$_POST["CONID"]."'"    ,
+                "BCO_VALO" => "'".$_POST["BVALO"]."'"    
+                
+                ];  
+               
+                
+                echo json_encode($this->model->setBaseConcurso($base_concurso));
+
+           }else echo "Hola2";
+
+        }
+        //__________________________________________________________________//
 
 
         //_______________Creamos el registro en SSP_CONCURSO_______________//

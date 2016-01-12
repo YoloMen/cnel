@@ -119,7 +119,7 @@ class PDOManager extends PDO{
 
                $sql = "INSERT INTO ".$table." (".$columnas.") VALUES(".$valores.");";
               
-            	
+            	//echo $sql;
                $result = $this->prepare($sql);
                if($bind){
                        foreach ($values as $key => $value) {
@@ -253,13 +253,16 @@ class PDOManager extends PDO{
 		$sql = "SELECT ".$attr." FROM ".$table." ".$where.";";
 		$result = $this->prepare($sql);
 
-		$response = $result->execute($sql);
-	
-		if($response->fetchColumn() > 0) {
-			return true;
-		}
-
-		return false;
+		   if($result->execute()){
+                       if ($result->rowCount() > 0){
+                               return true;
+                       }else
+                        		return false;
+               }else{
+                       echo $result->errorInfo();
+                       echo 'FAIL';
+                       //return false;
+               }
 	}
 
 	function startTransaction ($SQLs){
