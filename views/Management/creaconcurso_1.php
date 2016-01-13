@@ -28,242 +28,221 @@
             <div class="row ">
 
                 <div class="container">
-                <div class="row z-depth-1 hide-on-med-and-down fixed">
-                    <div class="col l12 m12 s12 ">
-      <ul class="tabs" style="width: 100%;">
-        <li class="tab"><a section="cabecera_concurso" onclick="seccionS('CC');" class="active">
-          <i class="material-icons">account_box</i><br>Crear Concurso</a></li>
-        <li class="tab"><a section="parametros" onclick="seccionS('PC');" class="">
-          <i class="material-icons">supervisor_account</i><br>Parámetros</a></li>
-        <li class="tab"><a section="instruccion-formal" class="">
-          <i class="material-icons">school</i><br>Instrucción formal</a></li>
-        <li class="tab"><a section="idiomas" class="">
-          <i class="material-icons">language</i><br>Idiomas</a></li>
-       
-      <div class="indicator" style="right: 669px; left: 669px;"></div></ul>
-                       </div>
-    
-              </div>
+                    <div class="row z-depth-1 hide-on-med-and-down fixed">
+                        <div class="col l12 m12 s12 ">
+                            <ul class="tabs" style="width: 100%;">
+                                <li class="tab"><a section="cabecera_concurso" onclick="seccionS('CC');" class="active">
+                                        <i class="material-icons">work</i><br>Crear Concurso</a></li>
+                                <li class="tab"><a section="parametros" onclick="seccionS('PC');" class="">
+                                        <i class="material-icons">recent_actors</i><br>Parámetros</a></li>
+                                <li class="tab"><a section="instruccion-formal" class="">
+                                        <i class="material-icons">school</i><br>Instrucción formal</a></li>
+                                <li class="tab"><a section="idiomas" class="">
+                                        <i class="material-icons">language</i><br>Idiomas</a></li>
 
-              <div id="formContainer">
-               <form id="cabeceraConcurso" style="display: hide;">
-                    <div class="col  s12  m12 l12 z-depth-1">
+                                <div class="indicator" style="right: 669px; left: 669px;"></div></ul>
+                        </div>
 
-                        <div class="container " style="padding-bottom:100px;">
+                    </div>
+
+                    <div id="formContainer">
+                        <form id="cabeceraConcurso" style="display: hide;">
+                            <div class="col  s12  m12 l12 z-depth-1">
+
+                                <div class="container " style="padding-bottom:100px;">
 
 
-                            <div class="input-field col l4 m4 s12">
-                                <input id="CODI" name="CODI" type="text" class="validate" require>
-                                <label for="CODI">Código</label>
+                                    <div class="input-field col l4 m4 s12">
+                                        <input id="CODI" name="CODI" type="text" class="validate" require>
+                                        <label for="CODI">Código</label>
+                                    </div>
+                                    <div class="input-field col l6 m4 s12">
+                                        <input id="NOMB" name="NOMB" type="text" class="validate" require> 
+                                        <label for="NOMB">Nombre</label>
+
+                                    </div>
+                                    <div class="input-field col l2 m4 s7">
+                                        <input id="NVAC" name="NVAC" type="number" value="1"  class="validate " require>
+                                        <label for="NVAC" class="active">N# Vacantes</label>
+
+                                    </div>
+
+                                    <div class="col l6 m6 s12">
+
+
+                                        <div class="input-field col l11 m11 s11">
+
+
+                                            <select id="PUESTO" name="PUESTO" class="browser-default" required onchange ="SelectController($('option:selected', this));" require>
+                                                <option value="NULL" selected>Elija Departamento</option>
+
+                                                <?php
+                                                //echo var_dump($this->data['departamentos']);
+                                                foreach ($this->data['departamentos'] as $key => $value) {
+                                                    echo '<option value="' . $value[0] . '">' . $value[1] . '</option>';
+                                                    // echo '<option value="'.$value[$key][0].'">'.$value[$key][1].'</option>';
+                                                }
+                                                ?>
+
+                                                <option value="NULL" >Crear - Editar</option>
+                                            </select>
+
+                                        </div>
+                                        <div class="input-field col l1 m1 s1"  >
+                                            <a id="logo_departamento" ><i class="material-icons small" >open_in_new</i></a>  
+                                        </div>
+                                        <div class="input-field col l11 m11 s11">
+
+                                            <select id="CARGO" name="CARGO" class="browser-default" required onchange ="SelectController2($('option:selected', this));" require>
+                                                <option value="NULL" selected >Puesto de Trabajo</option>
+                                                <div id="CARGOcontainer">
+                                                </div>
+                                                <option value="NULL" >Crear - Editar</option>
+
+                                            </select>
+                                        </div>
+                                        <div class="input-field col l1 m1 s1"  >
+                                            <a id="logo_oferta" ><i class="material-icons small" >open_in_new</i></a>  
+                                        </div>
+                                    </div>
+
+                                    <div class="col l6 m6 s12">
+                                        <div class="input-field col l6 m6 s6">
+                                            <input id="VALM"  name="VALM" type="number" value="50" class="validate">
+                                            <label for="VALM" class="active">% Mérito</label>
+
+                                        </div>
+                                        <div class="input-field col l6 m6 s6">
+                                            <input id="VALO" name="VALO" type="number" value="50" class="validate">
+                                            <label for="VALO" class="active">% Oposición</label>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="input-field col l6 m6 s12">
+
+                                        <textarea id="DESC" name="DESC"  class="materialize-textarea"></textarea>
+                                        <label for="DESC">Descripción</label>
+                                    </div>
+
+                                </div>
+
+
                             </div>
-                            <div class="input-field col l6 m4 s12">
-                                <input id="NOMB" name="NOMB" type="text" class="validate" require> 
-                                <label for="NOMB">Nombre</label>
+                        </form>
+
+
+                        <form id="parametrosConcurso" >
+
+
+                            <div class="col  s12  m12 l12 z-depth-1">
+                                <div class="container " style="padding-bottom:100px;">
+
+
+
+                                    <div class="input-field col l4 m4 s12">
+
+
+                                        <select id="TDES" name="TDES"  class="browser-default" required >
+                                            <option value="NULL" selected>Tipo Parámetro</option>
+                                            <option value="E" >Entrevista</option>
+                                            <option value="P">Prueba</option>
+                                            <option value="R">Requerimiento</option>
+
+
+                                        </select>
+
+                                    </div>
+
+                                    <div class="input-field col l4 m1 s12">
+
+                                        <select id="CFASE" name="CFASE" class="browser-default" required onchange ="SelectController3($('option:selected', this));" >
+                                            <option value="NULL" selected >Fase</option>
+
+
+                                            <option value="NULL" >Crear - Editar</option>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="input-field col l4 m1 s1"  >
+                                        <a id="logo_param" onclick=""><i class="material-icons small" >open_in_new</i></a>  
+                                    </div>
+
+                                    <div class="input-field col l12 m12 s12">
+                                        <div class="input-field col l4 m4 s12">
+                                            <input id="BFINI" name="BFINI"  type="date" class="datepicker">
+                                            <label class="active" for="BFINI">Fecha Inicial</label>
+                                        </div>
+                                        <div class="input-field col l4 m4 s12">
+                                            <input id="BFFIN" name="BFFIN" type="date" class="datepicker">
+                                            <label class="active" for="BFFIN">Fecha Final</label>
+                                        </div>
+
+                                        <div class="input-field col l3 m4 s12">
+                                            <input id="BVALO" name="BVALO" type="number" class="validate">
+                                            <label for="last_name">Valor</label>
+                                        </div>
+
+                                        <div  class="input-field col l1 m1 s1"  >
+                                            <a id="G_fase" class="center-align" ><i class="material-icons small" >playlist_add</i></a>  
+                                        </div>
+                                    </div>
+                                </div>
+
 
                             </div>
-                            <div class="input-field col l2 m4 s7">
-                                <input id="NVAC" name="NVAC" type="number" value="1"  class="validate " require>
-                                <label for="NVAC" class="active">N# Vacantes</label>
-
-                            </div>
-
-                            <div class="col l6 m6 s12">
 
 
-                                <div class="input-field col l11 m11 s11">
 
 
-                                    <select id="PUESTO" name="PUESTO" class="browser-default" required onchange ="SelectController($('option:selected', this));" require>
-                                        <option value="NULL" selected>Elija Departamento</option>
-                                        
-                                        <?php
-                                        //echo var_dump($this->data['departamentos']);
-                                         foreach ($this->data['departamentos'] as $key => $value) {
-                                            echo '<option value="'.$value[0].'">'.$value[1].'</option>';
-                                              // echo '<option value="'.$value[$key][0].'">'.$value[$key][1].'</option>';
-                                          } 
+                            <div class="col  s12  m12 l12 z-depth-1">
+                                <div class="container " style="padding-bottom:100px;">
+
+
+                                    <table class="striped highlight ">
+                                        <thead>
+
+                                            <tr>
+                                                <th data-field="id">Fase</th>
+
+                                                <th data-field="price">Tipo</th>
+                                                <th data-field="name">Merito</th>
+                                                <th data-field="name">Oposición</th>
+                                                <th data-field="name"></th>
+
+
+                                            </tr>
+                                        </thead>
+
+                                        <tbody id="detalle_fases">
                                            
-                                          
-                                        ?>
-                                      
-                                        <option value="NULL" >Crear - Editar</option>
-                                    </select>
+                                            
+                                        </tbody>
+                                    </table>
 
                                 </div>
-                                <div class="input-field col l1 m1 s1"  >
-                                    <a id="logo_departamento" ><i class="material-icons small" >open_in_new</i></a>  
-                                </div>
-                                <div class="input-field col l11 m11 s11">
 
-                                    <select id="CARGO" name="CARGO" class="browser-default" required onchange ="SelectController2($('option:selected', this));" require>
-                                        <option value="NULL" selected >Puesto de Trabajo</option>
-                                         <div id="CARGOcontainer">
-                                           </div>
-                                        <option value="NULL" >Crear - Editar</option>
-
-                                    </select>
-                                </div>
-                                <div class="input-field col l1 m1 s1"  >
-                                    <a id="logo_oferta" ><i class="material-icons small" >open_in_new</i></a>  
-                                </div>
-                            </div>
-
-                            <div class="col l6 m6 s12">
-                                <div class="input-field col l6 m6 s6">
-                                    <input id="VALM"  name="VALM" type="number" value="50" class="validate">
-                                    <label for="VALM" class="active">% Mérito</label>
-
-                                </div>
-                                <div class="input-field col l6 m6 s6">
-                                    <input id="VALO" name="VALO" type="number" value="50" class="validate">
-                                    <label for="VALO" class="active">% Oposición</label>
-
-                                </div>
-                            </div>
-
-                            <div class="input-field col l6 m6 s12">
-
-                                <textarea id="DESC" name="DESC"  class="materialize-textarea"></textarea>
-                                <label for="DESC">Descripción</label>
-                            </div>
-
-                        </div>
-
-
-                    </div>
-                     </form>
-                    
-
-                     <form id="parametrosConcurso" >
-            
-                    
-                    <div class="col  s12  m12 l12 z-depth-1">
-                        <div class="container " style="padding-bottom:100px;">
-
-
-
-                            <div class="input-field col l4 m4 s12">
-
-
-                                <select id="TDES" name="TDES"  class="browser-default" required >
-                                    <option value="NULL" selected>Tipo Parámetro</option>
-                                    <option value="E" >Entrevista</option>
-                                    <option value="P">Prueba</option>
-                                    <option value="R">Requerimiento</option>
-
-
-                                </select>
 
                             </div>
 
-                            <div class="input-field col l4 m1 s12">
 
-                                <select id="CFASE" name="CFASE" class="browser-default" required onchange ="SelectController3($('option:selected', this));" >
-                                    <option value="NULL" selected >Fase</option>
-                                    
-                                   
-                                    <option value="NULL" >Crear - Editar</option>
-
-                                </select>
-                            </div>
-                           
-                            <div class="input-field col l4 m1 s1"  >
-                                <a id="logo_param" onclick=""><i class="material-icons small" >open_in_new</i></a>  
-                            </div>
-
-                            <div class="input-field col l12 m12 s12">
-                            <div class="input-field col l4 m4 s12">
-                                 <input id="BFINI" name="BFINI"  type="date" class="datepicker">
-                                <label class="active" for="BFINI">Fecha Inicial</label>
-                            </div>
-                            <div class="input-field col l4 m4 s12">
-                                 <input id="BFFIN" name="BFFIN" type="date" class="datepicker">
-                                  <label class="active" for="BFFIN">Fecha Final</label>
-                            </div>
-
-                            <div class="input-field col l3 m4 s12">
-                                <input id="BVALO" name="BVALO" type="number" class="validate">
-                                <label for="last_name">Valor</label>
-                            </div>
-
-                            <div  class="input-field col l1 m1 s1"  >
-                                <a id="G_fase" class="center-align" ><i class="material-icons small" >playlist_add</i></a>  
-                            </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-       
+                        </form>
 
 
 
-                    <div class="col  s12  m12 l12 z-depth-1">
-                        <div class="container " style="padding-bottom:100px;">
+                    </div>  
 
 
-                            <table class="striped highlight ">
-                                <thead>
-
-                                    <tr>
-                                        <th data-field="id">Fase</th>
-
-                                        <th data-field="price">Tipo</th>
-                                        <th data-field="name">Merito</th>
-                                        <th data-field="name">Oposición</th>
-                                        <th data-field="name"></th>
-
-
-                                    </tr>
-                                </thead>
-
-                                <tbody id="detalle_fases">
-                                    <tr>
-                                        <td>Entrevista Técnica</td>
-                                        <td>Entrevista</td>
-                                        <td></td>
-                                        <td>50</td>
-                                        <td>
-                                            <a><i class="material-icons small" >delete</i></a>  
-                                        </td>     
-                                    </tr>
-
-                                    <tr>
-                                        <td>Instrucción</td>
-                                        <td>Requerimiento</td>
-                                        <td>50</td>
-                                        <td></td>
-                                        <td>
-                                            <a><i class="material-icons small" >delete</i></a>  
-                                        </td>    
-
-                                    </tr>
-
-                                </tbody>
-                            </table>
-
-                        </div>
-
-
-                    </div>
-
-      
-            </form>
-
-                     
-
-                     </div>  
-
-                   
                 </div>
             </div>
-            
-          
-<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-    <a class="btn-floating btn-large red" id="save_all">
-      <i class="large material-icons">save</i>
-    </a>
-  </div>
+
+
+            <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+                <a class="btn-floating btn-large red" id="save_all">
+                    <i class="large material-icons">save</i>
+                </a>
+            </div>
         </main>   
         <!-- Modal Fases -->
         <div id="parametros" class="modal">
@@ -277,54 +256,54 @@
 
                     <div class="col  s12  m12 l12 ">
                         <div class="container " style="padding-bottom:100px;">
-                          <form id="form_fases">
+                            <form id="form_fases">
 
-                            <div class="col l4 m4 s12">
-                                <div class="input-field">
+                                <div class="col l4 m4 s12">
+                                    <div class="input-field">
 
-                                    <input name="IFNOMB" id="IFNOMB" type="text" Did="" class="validate">
-                                    <label for="IFNOMB">Nombre</label>
-                                </div>
-
-                            </div>
-                            <div class="input-field col l4 m4 s12">
-
-                                <select name="IFTFAS" id="IFTFAS" class="browser-default" required >
-                                    <option value="">Seleccione opción</option>
-                                    <option value="M" selected>Mérito</option>
-                                    <option value="O">Oposición</option>
-
-                                </select>
-                            </div>
-                            <div class="input-field col l4 m4 s12">
-
-                                <select name="IFTDES"  id="IFTDES" class="browser-default" required >
-                                    <option value="" selected>Seleccione opción</option>
-                                    <option value="E" >Entrevista</option>
-                                    <option value="P">Prueba</option>
-                                    <option value="R">Requerimiento</option>
-
-                                </select>
-                            </div>
-
-                            <div class="center-align col l12 m6 s6">
-                                <div class="center-align col l6 m12 s12">
-                                    <a class=" center-align waves-effect waves-light btn blue" id="guardar_F">Guardar</a>
-
-                                </div> 
-                                <div class="center-align col l6 m12 s12">
-                                    <a class=" center-align waves-effect waves-light btn blue" onclick="$('#parametros').closeModal();">Cancelar</a>
+                                        <input name="IFNOMB" id="IFNOMB" type="text" Did="" class="validate">
+                                        <label for="IFNOMB">Nombre</label>
+                                    </div>
 
                                 </div>
+                                <div class="input-field col l4 m4 s12">
+
+                                    <select name="IFTFAS" id="IFTFAS" class="browser-default" required >
+                                        <option value="">Seleccione opción</option>
+                                        <option value="M" selected>Mérito</option>
+                                        <option value="O">Oposición</option>
+
+                                    </select>
+                                </div>
+                                <div class="input-field col l4 m4 s12">
+
+                                    <select name="IFTDES"  id="IFTDES" class="browser-default" required >
+                                        <option value="" selected>Seleccione opción</option>
+                                        <option value="E" >Entrevista</option>
+                                        <option value="P">Prueba</option>
+                                        <option value="R">Requerimiento</option>
+
+                                    </select>
+                                </div>
+
+                                <div class="center-align col l12 m6 s6">
+                                    <div class="center-align col l6 m12 s12">
+                                        <a class=" center-align waves-effect waves-light btn blue" id="guardar_F">Guardar</a>
+
+                                    </div> 
+                                    <div class="center-align col l6 m12 s12">
+                                        <a class=" center-align waves-effect waves-light btn blue" onclick="$('#parametros').closeModal();">Cancelar</a>
+
+                                    </div>
 
 
-                                <br><br><br>
+                                    <br><br><br>
 
-                            </div>
+                                </div>
 
 
 
-                              </form>
+                            </form>
 
 
                         </div>
@@ -348,67 +327,65 @@
 
                     <div class="col  s12  m12 l12 ">
                         <form id="frmDepartamento">
-                          <div class="col  s12  m12 l12 z-depth-1">
+                            <div class="col  s12  m12 l12 z-depth-1">
 
-                        <div class="container " style="padding-bottom:100px;">
+                                <div class="container " style="padding-bottom:100px;">
 
-                            
 
-                                   
-                                    
-                               
-                            <div class="col l4 m4 s12">
-                                <div class="input-field">
 
-                                    <input id="DNOMB" Did="" name="DNOMB" type="text" class="validate">
-                                    <label id= "lDNOMB" for="nombfmo">Nombre Departamento</label>
+
+
+
+                                    <div class="col l4 m4 s12">
+                                        <div class="input-field">
+
+                                            <input id="DNOMB" Did="" name="DNOMB" type="text" class="validate">
+                                            <label id= "lDNOMB" for="nombfmo">Nombre Departamento</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="input-field col l4 m4 s12">
+
+                                        <select name="DPADR" id="DPADR" class="browser-default" required >
+                                            <option value="NULL" >Departmanteo Padre</option>
+
+<?php
+//echo var_dump($this->data['departamentos']);
+foreach ($this->data['departamentos'] as $key => $value) {
+    echo '<option value="' . $value[0] . '">' . $value[1] . '</option>';
+    // echo '<option value="'.$value[$key][0].'">'.$value[$key][1].'</option>';
+}
+?>
+
+                                            <option value="NULL" >Ninguno</option>
+
+
+                                        </select>
+                                    </div>
+
+                                    <div class="input-field col l4 m4 s12">
+
+                                        <input type="checkbox" class="filled-in" id="DESTA" name="DESTA" checked="checked" />
+                                        <label for="DESTA">Habilitado</label>
+                                    </div>
+
+                                    <div class="center-align col l12 m6 s6">
+                                        <div class="center-align col l6 m12 s12">
+                                            <a class=" center-align waves-effect waves-light btn blue" id="guardar_D" >Guardar</a>
+
+                                        </div> 
+                                        <div class="center-align col l6 m12 s12">
+                                            <a class=" center-align waves-effect waves-light btn blue" onclick=" $('#departamento_modal').closeModal() ">Cancelar</a>
+
+                                        </div>
+
+
+                                        <br><br><br>
+
+                                    </div>
+
                                 </div>
-
                             </div>
-                            <div class="input-field col l4 m4 s12">
-
-                                <select name="DPADR" id="DPADR" class="browser-default" required >
-                                    <option value="NULL" >Departmanteo Padre</option>
-                                   
-                                     <?php
-                                        //echo var_dump($this->data['departamentos']);
-                                         foreach ($this->data['departamentos'] as $key => $value) {
-                                            echo '<option value="'.$value[0].'">'.$value[1].'</option>';
-                                              // echo '<option value="'.$value[$key][0].'">'.$value[$key][1].'</option>';
-                                          } 
-                                           
-                                          
-                                        ?>
-                                      
-                                    <option value="NULL" >Ninguno</option>
-
-
-                                </select>
-                            </div>
-
-                             <div class="input-field col l4 m4 s12">
-
-                                <input type="checkbox" class="filled-in" id="DESTA" name="DESTA" checked="checked" />
-                                <label for="DESTA">Habilitado</label>
-                            </div>
-
-                            <div class="center-align col l12 m6 s6">
-                                <div class="center-align col l6 m12 s12">
-                                    <a class=" center-align waves-effect waves-light btn blue" id="guardar_D" >Guardar</a>
-
-                                </div> 
-                                <div class="center-align col l6 m12 s12">
-                                    <a class=" center-align waves-effect waves-light btn blue" onclick=" $('#departamento_modal').closeModal() ">Cancelar</a>
-
-                                </div>
-
-
-                                <br><br><br>
-
-                            </div>
-
-                        </div>
-                        </div>
                         </form>
 
                     </div>
@@ -428,66 +405,64 @@
 
 
                     <div class="col  s12  m12 l12 ">
-                       <form id="frmCargo">
-                        <div class="container " style="padding-bottom:100px;">
-
-                            
-
-                                   
-                                    
-                               
-                            <div class="col l4 m4 s12">
-                                <div class="input-field">
-
-                                    <input id="CNOMB" Did="" name="CNOMB" type="text" class="validate">
-                                    <label id= "lCNOMB" for="nombfmo">Nombre Departamento</label>
-                                </div>
-
-                            </div>
-                            <div class="input-field col l4 m4 s12">
-
-                                <select name="CPADR" id="CPADR" class="browser-default" required >
-                                  
-                                   
-                                     <?php
-                                        //echo var_dump($this->data['departamentos']);
-                                         foreach ($this->data['departamentos'] as $key => $value) {
-                                            echo '<option value="'.$value[0].'">'.$value[1].'</option>';
-                                              // echo '<option value="'.$value[$key][0].'">'.$value[$key][1].'</option>';
-                                          } 
-                                           
-                                          
-                                        ?>
-                                      
-                                  
+                        <form id="frmCargo">
+                            <div class="container " style="padding-bottom:100px;">
 
 
-                                </select>
-                            </div>
 
-                             <div class="input-field col l4 m4 s12">
 
-                                <input type="checkbox" class="filled-in" id="DESTA" name="DESTA" checked="checked" />
-                                <label for="CESTA">Habilitado</label>
-                            </div>
 
-                            <div class="center-align col l12 m6 s6">
-                                <div class="center-align col l6 m12 s12">
-                                    <a class=" center-align waves-effect waves-light btn blue" id="guardar_C" >Guardar</a>
 
-                                </div> 
-                                <div class="center-align col l6 m12 s12">
-                                    <a class=" center-align waves-effect waves-light btn blue" onclick=" $('#cargo_trabajo').closeModal() ">Cancelar</a>
+                                <div class="col l4 m4 s12">
+                                    <div class="input-field">
+
+                                        <input id="CNOMB" Did="" name="CNOMB" type="text" class="validate">
+                                        <label id= "lCNOMB" for="nombfmo">Nombre Departamento</label>
+                                    </div>
 
                                 </div>
+                                <div class="input-field col l4 m4 s12">
+
+                                    <select name="CPADR" id="CPADR" class="browser-default" required >
 
 
-                                <br><br><br>
+<?php
+//echo var_dump($this->data['departamentos']);
+foreach ($this->data['departamentos'] as $key => $value) {
+    echo '<option value="' . $value[0] . '">' . $value[1] . '</option>';
+    // echo '<option value="'.$value[$key][0].'">'.$value[$key][1].'</option>';
+}
+?>
+
+
+
+
+                                    </select>
+                                </div>
+
+                                <div class="input-field col l4 m4 s12">
+
+                                    <input type="checkbox" class="filled-in" id="DESTA" name="DESTA" checked="checked" />
+                                    <label for="CESTA">Habilitado</label>
+                                </div>
+
+                                <div class="center-align col l12 m6 s6">
+                                    <div class="center-align col l6 m12 s12">
+                                        <a class=" center-align waves-effect waves-light btn blue" id="guardar_C" >Guardar</a>
+
+                                    </div> 
+                                    <div class="center-align col l6 m12 s12">
+                                        <a class=" center-align waves-effect waves-light btn blue" onclick=" $('#cargo_trabajo').closeModal() ">Cancelar</a>
+
+                                    </div>
+
+
+                                    <br><br><br>
+
+                                </div>
+
 
                             </div>
-
-
-                        </div>
                         </form> 
 
 
@@ -500,12 +475,12 @@
 
 
 
-        <?php include_once SCRIPT_U; ?>	
-        <?php include_once SCRIPT_F; ?>
+<?php include_once SCRIPT_U; ?>	
+<?php include_once SCRIPT_F; ?>
     </body>
     <script src="<?php echo URL; ?>/public/js/globalJS.js"></script>
     <script src="<?php echo URL; ?>/public/js/lunr.min.js"></script>
-    <script>var URL = '<?=URL?>';</script>
+    <script>var URL = '<?= URL ?>';</script>
     <script type="text/javascript">
 
 //_________________CONSURSOENCABEZADO____________________________
@@ -536,6 +511,26 @@ function CALL_actualiza_tabla_fases(){
 
 function actualiza_tabla_fases(response){
   var obj = JSON.parse(response);
+  $.each( obj, function ( key, value ) {
+ 
+ 
+ 
+ registro='<tr><td>'+value[7]+'</td><td>'+value[4]+'</td><td>'+value[5]+'</td></tr>';
+  $("#detalle_fases").append(registro);
+ 
+ /*<td>Requerimiento</td>
+<td>50</td>
+<td></td>
+<td>
+<a><i class="material-icons small" >delete</i></a>  
+</td>    
+
+*/
+ 
+});
+
+
+
  console.log(obj);
 }
 
