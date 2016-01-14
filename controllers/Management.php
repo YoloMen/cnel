@@ -23,6 +23,22 @@ Class Management extends Controller {
     }
 
     //__________________________________________________________________//
+    
+    //___________Eliminamos el registro en SSP_FASE_CONCURSO_______________//
+    public function delete_faseConcurso() {
+
+        if (!empty($_POST["CONID"]) && isset($_POST["CONID"])) {
+            $DATA = [
+
+                "CON_ID" => "'" . $_POST["CONID"] . "'",
+                "FMO_ID" => "'" . $_POST["FASE"] . "'"
+            ];
+        echo json_encode($this->model->delete_FConcurso($DATA));
+        }
+    }
+
+   
+    //__________________________________________________________________//
     //___________Creamos el registro en SSP_FASE_MO_______________//
     public function crea_fase() {
 

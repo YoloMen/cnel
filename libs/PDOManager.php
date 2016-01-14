@@ -219,21 +219,23 @@ class PDOManager extends PDO{
 	*
 	* @return Boolean $response
 	*/
-	function delete($table,$values,$where = false){
-		if($where){
-			return false;
-		}
+	function delete($table,$where = false){
+		
 
 		$sql = 'DELETE FROM '.$table.' WHERE '.$where;
 
 		$result = $this->prepare($sql);
-		$response = $result->execute($sql);
+		//echo $sql;
 	
-		if($response->rowCount() > 0) {
-			return true;
-		}
-
-		return false;
+		if($result->execute()){
+                       if ($result->rowCount() > 0){
+                               return $result->rowCount();
+                       }
+               }else{
+                       echo $result->errorInfo();
+                       echo 'FAIL';
+                       //return false;
+               }
 	}
 	/**
 	* CHECK

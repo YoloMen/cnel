@@ -206,8 +206,9 @@
                                             <tr>
                                                 <th data-field="id">Fase</th>
 
-                                                <th data-field="price">Tipo</th>
-                                                <th data-field="name">Merito</th>
+                                                <th data-field="price">Fecha Inicio</th>
+                                                <th data-field="name">Fecha Fin</th>
+                                                <th data-field="name">Mérito</th>
                                                 <th data-field="name">Oposición</th>
                                                 <th data-field="name"></th>
 
@@ -475,7 +476,7 @@ foreach ($this->data['departamentos'] as $key => $value) {
 
 
 
-<?php include_once SCRIPT_U; ?>	
+<?php include_once SCRIPT_U; ?> 
 <?php include_once SCRIPT_F; ?>
     </body>
     <script src="<?php echo URL; ?>/public/js/globalJS.js"></script>
@@ -511,29 +512,35 @@ function CALL_actualiza_tabla_fases(){
 
 function actualiza_tabla_fases(response){
   var obj = JSON.parse(response);
+
+   $("#detalle_fases").empty();
   $.each( obj, function ( key, value ) {
  
- 
- 
- registro='<tr><td>'+value[7]+'</td><td>'+value[4]+'</td><td>'+value[5]+'</td></tr>';
-  $("#detalle_fases").append(registro);
- 
- /*<td>Requerimiento</td>
-<td>50</td>
-<td></td>
-<td>
-<a><i class="material-icons small" >delete</i></a>  
-</td>    
 
-*/
- 
+  if(value[8]=='M')
+ registro='<tr class="center-align"><td>'+value[7]+'</td><td>'+value[4]+'</td><td>'+value[5]+'</td><td>'+value[3]+'</td><td></td><td><a onclick="eliminar_fase_concurso('+value[2]+')"><i class="material-icons small" >delete</i></a></td></tr>';
+ else
+  registro='<tr><td>'+value[7]+'</td><td>'+value[4]+'</td><td>'+value[5]+'</td><td></td><td>'+value[3]+'</td><td><a onclick="eliminar_fase_concurso('+value[2]+')"><i class="material-icons small" >delete</i></a></td></tr>';
+ $("#detalle_fases").append(registro);
+
 });
 
 
 
  console.log(obj);
 }
+function elimina(response){
+ 
+ var obj = JSON.parse(response);
+  console.log(response);
 
+}
+//ELIMINAR FASE CONCURSO
+function eliminar_fase_concurso(ID){
+  param={'CONID' : CONCID_ , "FASE" : ID };
+   Materialize.toast('Elimado con Éxito',2000);
+ fajax(param, '<?php echo URL; ?>/management/delete_faseConcurso',CALL_actualiza_tabla_fases);
+}
 
 //CREA FASE
 function guardar_fase(response){
@@ -546,6 +553,7 @@ function guardar_fase(response){
 function insert_base_concurso(response){
 
  var obj = JSON.parse(response);
+ console.log(response);
  Materialize.toast(obj['Mensaje'],2000);
 CALL_actualiza_tabla_fases();
 }
@@ -690,12 +698,6 @@ switch(param)
            
 
         });
-
-      
-
-
-
-
 
 ///cargo
 function SelectController2(valueSe){

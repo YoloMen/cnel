@@ -25,12 +25,52 @@ Class Management_model extends Model {
 
     //Inserta las fases al concurso
     public function setBaseConcurso($base_concurso) {
+
+           // var_dump($base_concurso);
         $check = $this->db->check('*', 'SSP_BASE_CONCURSO', "CON_ID = " . $base_concurso['CON_ID'] . " AND FMO_ID=" . $base_concurso['FMO_ID']);
         if (!$check)
-            $this->db->insert('SSP_BASE_CONCURSO', $base_concurso);
+            {
+               //SELECCIONAMOS EL TIPO DE FASE --MERITO OPOSICION -- DE  LA FASE A INSERTAR
+            $F = $this->db->select("FMO_TFAS", 'SSP_FASE_MO ', "FMO_ID = " . $base_concurso['FMO_ID'], PDO::FETCH_NUM);
+            $T_FASE=$F[0][0];
 
+            ($T_FASE =='M' ? $TIPO_FASE='CON_VALM' : $TIPO_FASE='CON_VALO'); //
+            
+            //REVISAMOS EL PUNTAJE MAXIMO PARA EL TIPO DE FASE SELECCIONADO
+            $C = $this->db->select($TIPO_FASE, 'SSP_CONCURSO ', "CON_ID = " . $base_concurso['CON_ID'], PDO::FETCH_NUM);
+              
+                $pMAX= $C[0][0];
 
-        return $data = ["Mensaje" => "Ingreso Correctamente"];
+                //Revisamos que no sobrepase la puntuación asignada a la cabecera de concurso
+                $S = $this->db->select('SUM(BCO_VALO)', 'SSP_BASE_CONCURSO CB , SSP_FASE_MO F ', "CB.FMO_ID= F.FMO_ID AND CB.CON_ID = " . $base_concurso['CON_ID']." AND F.FMO_TFAS= '$T_FASE' ", PDO::FETCH_NUM);
+                $BCO_VALO_=str_replace("'",' ',$base_concurso['BCO_VALO']);
+               
+                if (sizeof($S ) > 0)   
+                 
+                   $SUMA=intval($S[0][0])+intval($BCO_VALO_);
+
+                
+                else
+                   $SUMA=intval($BCO_VALO_);
+                    
+                
+                if($SUMA>$pMAX)
+                {
+                   return $data = ["Mensaje" => "Sobrepasa el puntaje permitido"];
+                }else
+                {
+                   $this->db->insert('SSP_BASE_CONCURSO', $base_concurso);
+                    return $data = ["Mensaje" => "Ingreso Correctamente2"];
+                }
+                         
+            }else
+            return $data = ["Mensaje" => "Ingreso Incorrecto registro existente.!"];
+            
+    }
+
+    //Elimina las fases un concurso
+    public function delete_FConcurso($DATOS) {
+        return $this->db->delete('SSP_BASE_CONCURSO',"CON_ID = " . $DATOS['CON_ID'] . " AND FMO_ID=" . $DATOS['FMO_ID']);
     }
 
     //Consulta todos los departamentos
