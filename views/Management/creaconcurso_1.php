@@ -15,16 +15,8 @@
         <main>
             <div class="center-align blue darken-4 z-depth-1">
                 <img src="<?php echo URL; ?>public/images/logo.png" alt="" class="circle responsive-img">
-                <h5 class="center-align white-text light">ADMINISTRADOR PERSONAL - CNEL</h5>
+                <h5 class="center-align white-text light">CONCURSO - MÉRITO OPOSICIÓN</h5>
             </div>
-            <div class="row ">
-                <div class="container ">
-                    <button class="btn waves-effect waves-light" type="submit" name="action" onclick="fajax($('#cabeceraConcurso :input').serialize(), '<?php echo URL; ?>/management/insert_concurso',function(){});">Siguiente
-                        <i class="material-icons right">send</i>
-                    </button>
-                </div>
-            </div>
-
             <div class="row ">
 
                 <div class="container">
@@ -35,11 +27,9 @@
                                         <i class="material-icons">work</i><br>Crear Concurso</a></li>
                                 <li class="tab"><a section="parametros" onclick="seccionS('PC');" class="">
                                         <i class="material-icons">recent_actors</i><br>Parámetros</a></li>
-                                <li class="tab"><a section="instruccion-formal" class="">
-                                        <i class="material-icons">school</i><br>Instrucción formal</a></li>
-                                <li class="tab"><a section="idiomas" class="">
-                                        <i class="material-icons">language</i><br>Idiomas</a></li>
-
+                                <li class="tab"><a section="instruccion-formal" onclick="seccionS('FC');" class="">
+                                        <i class="material-icons">school</i><br>Perfiles</a></li>
+                                
                                 <div class="indicator" style="right: 669px; left: 669px;"></div></ul>
                         </div>
 
@@ -51,6 +41,9 @@
 
                                 <div class="container " style="padding-bottom:100px;">
 
+                                    <div class="col l12 m12 s12 center-align ">
+                                        <h5 class="blue-text text-darken-2">Bases del concurso</h5>
+                                    </div>
 
                                     <div class="input-field col l4 m4 s12">
                                         <input id="CODI" name="CODI" type="text" class="validate" require>
@@ -130,15 +123,13 @@
 
                             </div>
                         </form>
-
-
                         <form id="parametrosConcurso" >
-
-
                             <div class="col  s12  m12 l12 z-depth-1">
                                 <div class="container " style="padding-bottom:100px;">
 
-
+                                    <div class="col l12 m12 s12 center-align ">
+                                        <h5 class="blue-text text-darken-2">Fases del concurso</h5>
+                                    </div>
 
                                     <div class="input-field col l4 m4 s12">
 
@@ -226,15 +217,87 @@
 
 
                             </div>
-
-
                         </form>
+                        <form id="perfilesConcurso" >
+                            <div class="col  s12  m12 l12 z-depth-1">
+                                <div class="container " style="padding-bottom:100px;">
+                                    <div class="col l12 m12 s12 center-align ">
+                                        <h5 class="blue-text text-darken-2">Perfiles del concurso</h5>
+                                    </div>
+                                    <div class="input-field col l4 m1 s12">
+
+                                        <select id="CFASE" name="CFASE" class="browser-default" required onchange ="SelectController3($('option:selected', this));" >
+                                            <option value="NULL" selected >Fase</option>
+
+
+                                            <option value="NULL" >Crear - Editar</option>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="input-field col l4 m1 s1"  >
+                                        <a id="logo_param" onclick=""><i class="material-icons small" >open_in_new</i></a>  
+                                    </div>
+
+                                    <div class="input-field col l12 m12 s12">
+                                        <div class="input-field col l4 m4 s12">
+                                            <input id="BFINI" name="BFINI"  type="date" class="datepicker">
+                                            <label class="active" for="BFINI">Fecha Inicial</label>
+                                        </div>
+                                        <div class="input-field col l4 m4 s12">
+                                            <input id="BFFIN" name="BFFIN" type="date" class="datepicker">
+                                            <label class="active" for="BFFIN">Fecha Final</label>
+                                        </div>
+
+                                        <div class="input-field col l3 m4 s12">
+                                            <input id="BVALO" name="BVALO" type="number" class="validate">
+                                            <label for="last_name">Valor</label>
+                                        </div>
+
+                                        <div  class="input-field col l1 m1 s1"  >
+                                            <a id="G_fase" class="center-align" ><i class="material-icons small" >playlist_add</i></a>  
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
 
 
 
+
+                            <div class="col  s12  m12 l12 z-depth-1">
+                                <div class="container " style="padding-bottom:100px;">
+
+
+                                    <table class="striped highlight ">
+                                        <thead>
+
+                                            <tr>
+                                                <th data-field="id">Fase</th>
+
+                                                <th data-field="price">Fecha Inicio</th>
+                                                <th data-field="name">Fecha Fin</th>
+                                                <th data-field="name">Mérito</th>
+                                                <th data-field="name">Oposición</th>
+                                                <th data-field="name"></th>
+
+
+                                            </tr>
+                                        </thead>
+
+                                        <tbody id="detalle_fases">
+                                           
+                                            
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+
+                            </div>
+                        </form>
                     </div>  
-
-
                 </div>
             </div>
 
@@ -529,17 +592,12 @@ function actualiza_tabla_fases(response){
 
  console.log(obj);
 }
-function elimina(response){
- 
- var obj = JSON.parse(response);
-  console.log(response);
 
-}
 //ELIMINAR FASE CONCURSO
 function eliminar_fase_concurso(ID){
   param={'CONID' : CONCID_ , "FASE" : ID };
-   Materialize.toast('Elimado con Éxito',2000);
- fajax(param, '<?php echo URL; ?>/management/delete_faseConcurso',CALL_actualiza_tabla_fases);
+  Materialize.toast('Elimado con Éxito',2000);
+  fajax(param, '<?php echo URL; ?>/management/delete_faseConcurso',CALL_actualiza_tabla_fases);
 }
 
 //CREA FASE
@@ -588,8 +646,6 @@ $( "#TDES" ).change(function() {
     
  fajax($('#TDES').serialize(), '<?php echo URL; ?>/management/getall_fase',actualiza_allfases);
     }
-
-
 });
 
 
@@ -645,7 +701,7 @@ var frmser= $('#form_fases :input').serialize();
 
 });
 
-
+////////////////////////////////////////
 function SelectController3(valueSe){
 if(valueSe.text() == 'Crear - Editar')
     {
@@ -671,6 +727,8 @@ else
 function seccionS(param){
    $('#cabeceraConcurso').hide();
    $('#parametrosConcurso').hide();
+   $('#perfilesConcurso').hide();
+   
 switch(param)
 {
  
@@ -685,6 +743,11 @@ switch(param)
 
    $('#parametrosConcurso').show();
     break;
+   case 'FC':
+
+   $('#perfilesConcurso').show();
+   break;
+
 }
 }
 //-_____________________________________________________///

@@ -23,9 +23,12 @@
                     <button class="btn waves-effect waves-light" type="submit" name="action" onclick="location.href='<?php echo URL; ?>management/creaconcurso_1';">Crear
                         <i class="material-icons right">send</i>
                     </button>
+                    <button class="btn waves-effect waves-light" type="submit" name="action" onclick="location.href='<?php echo URL; ?>management/calendario';">Calendario
+                        <i class="material-icons right">send</i>
+                    </button>
                 </div>
             </div>
-
+            
             <div class="row ">
                 <div class="container ">
 
@@ -34,10 +37,16 @@
 
                             <br>
                             <br>
-                            <div id='calendar'></div>
 
+<?php
+//var_dump($DATA);
+foreach ($this->DATA['Concursos'] as $key => $value) {
 
-                        </div>
+    echo '<div class="card small col l4"><div class="card "><div class="card-image waves-effect waves-block waves-light"><img class="activator" src="images/office.jpg"></div><div class="card-content"><span class="card-title activator grey-text text-darken-4">' . $value[1] . '<i class="material-icons right">more_vert</i></span><p><a href="#">This is a link</a></p></div><div class="card-reveal"><span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span><p>kkkk</p></div></div></div></div>';
+    
+}
+?>
+ 
 
 
                     </div>
@@ -51,78 +60,9 @@
         </main>   
 
 
-
-
-
     </body>
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $('#logo_departamento').hide();
-            $('#logo_oferta').hide()
-        });
-
-    </script>
-
-</html>
 
 
-<script>
-
-    $(document).ready(function () {
-
-        $('#calendar').fullCalendar({
-            theme: true,
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay'
-            },
-            defaultDate: '2015-02-12',
-            editable: true,
-            eventLimit: true, // allow "more" link when too many events
-            events: [
-                {
-                    title: 'All Day Event',
-                    start: '2015-02-01',
-                     end: '2015-02-12T12:30:00'
-                },
-                {
-                    title: 'Conference',
-                    start: '2015-02-11',
-                    end: '2015-02-13'
-                },
-                {
-                    title: 'Meeting',
-                    start: '2015-02-12T10:30:00',
-                    end: '2015-02-12T12:30:00'
-                },
-                {
-                    title: 'Click for Google',
-                    url: 'http://google.com/',
-                    start: '2015-02-28'
-                }
-            ]
-        });
-
-    });
-
-</script>
-<style>
-
-    body {
-      
-        padding: 0;
-        font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-        font-size: 14px;
-    }
-
-    #calendar {
-        max-width: 900px;
-        margin: 0 auto;
-    }
-
-</style>
 </head>
 <body>
 

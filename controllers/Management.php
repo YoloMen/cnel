@@ -12,6 +12,13 @@ Class Management extends Controller {
         $this->view->render($this, 'index');
     }
 
+    //Cargamos la vista index del usuario
+    public function calendario() {
+
+        $this->view->render($this, 'calendario');
+    }
+
+
     //Cargamos la vista login del usuario
     public function login() {
         $this->view->render($this, 'login');
@@ -184,11 +191,9 @@ Class Management extends Controller {
         echo json_encode($this->model->getDepartamentos($data));
     }
 
+
     //__________________________________________________________________//
-    //Cargamos la calendario
-    public function calendario() {
-        $this->view->render($this, 'calendario');
-    }
+   
 
     //Cargamos la calendario
     public function fases() {
@@ -196,7 +201,12 @@ Class Management extends Controller {
     }
 
     public function concursos() {
+        $this->view->DATA=$this->model->getallConcurso();
         $this->view->render($this, 'concursos');
+    }
+    //FUNCION QUE OBTIENE TODOS LOS CONCURSOS CREADOS
+    public function getall_concursos() {
+        echo json_encode($this->model->getallConcurso());
     }
 
     public function departamentos() {

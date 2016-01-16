@@ -22,6 +22,12 @@ Class Management_model extends Model {
         if (sizeof($result1) > 0)
             return $data = ["Mensaje" => "Ingreso Correctamente", "Concurso_" => $result1[0][0]];
     }
+    
+    //Obtener todos los concursos
+    public function getallConcurso() {
+        return $data = ["Mensaje" => "Concursos obtenidos", "Concursos" => $this->db->select('*', 'SSP_CONCURSO', "", PDO::FETCH_NUM)];
+    }
+
 
     //Inserta las fases al concurso
     public function setBaseConcurso($base_concurso) {
