@@ -25,7 +25,12 @@ Class Management_model extends Model {
     
     //Obtener todos los concursos
     public function getallConcurso() {
-        return $data = ["Mensaje" => "Concursos obtenidos", "Concursos" => $this->db->select('*', 'SSP_CONCURSO', "", PDO::FETCH_NUM)];
+         return $data = ["Mensaje" => "Concursos obtenidos", "Concursos" => $this->db->select('*', 'SSP_CONCURSO ',"", PDO::FETCH_NUM)];
+    }
+
+    //Obtener concurso segun ID
+    public function get_concurso($CON_ID) {
+        return $data = ["Mensaje" => "Concurso obtenido", "Concurso" => $this->db->select('*', 'SSP_CONCURSO ',"CON_ID= '$CON_ID'", PDO::FETCH_NUM)];
     }
 
 

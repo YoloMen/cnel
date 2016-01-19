@@ -7,7 +7,7 @@
         <header>
 
             <?php include_once MENU_F; ?>
-
+            <?php isset($this->DATA['Concurso'])? $concurso = $this->DATA['Concurso'] : $concurso=""; ?>
         </header>
 
 
@@ -46,12 +46,12 @@
                                     </div>
 
                                     <div class="input-field col l4 m4 s12">
-                                        <input id="CODI" name="CODI" type="text" class="validate" require>
-                                        <label for="CODI">Código</label>
+                                        <input id="CODI" name="CODI" type="text" class="validate" <?php if($concurso!="") echo'value="'.$concurso[0][5].'"'; ?>  require>
+                                        <label for="CODI" <?php if($concurso!="") echo'class="active"'; ?> >Código </label>
                                     </div>
                                     <div class="input-field col l6 m4 s12">
                                         <input id="NOMB" name="NOMB" type="text" class="validate" require> 
-                                        <label for="NOMB">Nombre</label>
+                                        <label for="NOMB" <?php if($concurso!="") echo'class="active"'; ?> >Nombre</label>
 
                                     </div>
                                     <div class="input-field col l2 m4 s7">
@@ -110,9 +110,17 @@
                                             <label for="VALO" class="active">% Oposición</label>
 
                                         </div>
+                                        <div class="input-field col l6 m6 s12">
+                                            <input id="CFINI" name="CFINI"  type="date" class="datepicker">
+                                            <label class="active" for="CFINI">Fecha Inicial</label>
+                                        </div>
+                                        <div class="input-field col l6 m6 s12">
+                                            <input id="CFFIN" name="CFFIN" type="date" class="datepicker">
+                                            <label class="active" for="CFFIN">Fecha Final</label>
+                                        </div>
                                     </div>
 
-                                    <div class="input-field col l6 m6 s12">
+                                    <div class="input-field col l12 m6 s12">
 
                                         <textarea id="DESC" name="DESC"  class="materialize-textarea"></textarea>
                                         <label for="DESC">Descripción</label>
@@ -544,7 +552,7 @@ foreach ($this->data['departamentos'] as $key => $value) {
     </body>
     <script src="<?php echo URL; ?>/public/js/globalJS.js"></script>
     <script src="<?php echo URL; ?>/public/js/lunr.min.js"></script>
-    <script>var URL = '<?= URL ?>';</script>
+    <script>var URL = '<?= URL ?>'; var concursoOpciones = <?= $this->DATA['Concurso'] ?> ; </script>
     <script type="text/javascript">
 
 //_________________CONSURSOENCABEZADO____________________________
@@ -757,7 +765,7 @@ switch(param)
                 
             $('#logo_departamento').hide();
             $('#logo_oferta').hide();
-            
+            Materialize.toast(concursoOpciones);
            
 
         });
@@ -833,9 +841,6 @@ var obj = JSON.parse(response);
 
 
 }
-
-
-//
 
 
 //CREA DEPARTAMENTO 

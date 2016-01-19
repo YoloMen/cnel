@@ -14,7 +14,7 @@ Class Management extends Controller {
 
     //Cargamos la vista index del usuario
     public function calendario() {
-
+        $this->view->DATA=$this->model->getallConcurso();
         $this->view->render($this, 'calendario');
     }
 
@@ -110,7 +110,12 @@ Class Management extends Controller {
 
 
 
-        if (!empty($_POST["CODI"]) && isset($_POST["CODI"]) && !empty($_POST["NOMB"]) && isset($_POST["NOMB"]) && !empty($_POST["NVAC"]) && isset($_POST["NVAC"]) && !empty($_POST["VALO"]) && isset($_POST["VALO"]) && !empty($_POST["VALM"]) && isset($_POST["VALM"]) && !empty($_POST["CARGO"]) && ($_POST["CARGO"] != 'NULL') && isset($_POST["CARGO"]) && !empty($_POST["DESC"]) && isset($_POST["DESC"])) {
+        if (!empty($_POST["CODI"]) && isset($_POST["CODI"]) && !empty($_POST["NOMB"]) 
+            && isset($_POST["NOMB"]) && !empty($_POST["NVAC"]) && isset($_POST["NVAC"])
+             && !empty($_POST["VALO"]) && isset($_POST["VALO"]) && !empty($_POST["VALM"])
+              && isset($_POST["VALM"]) && !empty($_POST["CARGO"]) && ($_POST["CARGO"] != 'NULL')
+               && isset($_POST["CARGO"]) && !empty($_POST["DESC"]) && isset($_POST["DESC"])
+                && !empty($_POST["CFINI"]) && isset($_POST["CFINI"]) && !empty($_POST["CFFIN"]) && isset($_POST["CFFIN"])) {
             $cabecera_concurso = [
                 "CON_NOMB" => "'" . $this->Mayus($_POST["NOMB"]) . "'",
                 "CON_DESC" => "'" . $_POST["DESC"] . "'",
@@ -118,7 +123,10 @@ Class Management extends Controller {
                 "CON_VALO" => "'" . $_POST["VALO"] . "'",
                 "CON_CODI" => "'" . $_POST["CODI"] . "'",
                 "PTR_ID" => "'" . $_POST["CARGO"] . "'",
-                "CON_NVAC" => "'" . $_POST["NVAC"] . "'"
+                "CON_NVAC" => "'" . $_POST["NVAC"] . "'",
+                "CON_FINI" => "'" . $_POST["CFINI"] . "'",
+                "CON_FFIN" => "'" . $_POST["CFFIN"] . "'",
+                "CON_ESTA" => "'C'"
             ];
             $CONCURSO_DATOS = ["SSP_CONCURSO" => $cabecera_concurso];
 
@@ -215,11 +223,15 @@ Class Management extends Controller {
 
     public function creaconcurso_1() {
         $this->view->data = $this->get_allDepartamentos();
+        if(isset($_POST['IDCON_']))
+        $this->view->DATA = $this->model->get_concurso($_POST['IDCON_']);    
         $this->view->render($this, 'creaconcurso_1');
     }
 
     public function cabecera_concurso() {
         $this->view->data = $this->get_allDepartamentos();
+        if(isset($_POST['METHOD']))
+            echo $_POST['METHOD'];
         $this->view->render($this, 'cabecera_concurso');
     }
 

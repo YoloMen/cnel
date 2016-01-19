@@ -10,9 +10,6 @@
             <?php include_once MENU_F; ?>
 
         </header>
-
-
-
         <main>
             <div class="center-align blue darken-4 z-depth-1">
                 <img src="<?php echo URL; ?>public/images/logo.png" alt="" class="circle responsive-img">
@@ -28,7 +25,7 @@
                     </button>
                 </div>
             </div>
-            
+           
             <div class="row ">
                 <div class="container ">
 
@@ -37,36 +34,94 @@
 
                             <br>
                             <br>
+                            
+                            <table class="striped highlight ">
+                                <thead>
 
+                                    <tr >
+                                    <th data-field="id">#</th>
+                                    <th data-field="id">Código</th>
+                                    <th data-field="price">Nombre</th>
+                                    <th data-field="date">Fecha Inicio</th>
+                                    <th data-field="date">Fecha Fin</th>
+                                    <th data-field="name">Estado</th>
+                                    <th data-field="name"></th>
+
+
+                                    </tr>
+                                </thead>
+
+                                <tbody id="">
 <?php
-//var_dump($DATA);
+var_dump($this->DATA);
 foreach ($this->DATA['Concursos'] as $key => $value) {
-
-    echo '<div class="card small col l4"><div class="card "><div class="card-image waves-effect waves-block waves-light"><img class="activator" src="images/office.jpg"></div><div class="card-content"><span class="card-title activator grey-text text-darken-4">' . $value[1] . '<i class="material-icons right">more_vert</i></span><p><a href="#">This is a link</a></p></div><div class="card-reveal"><span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span><p>kkkk</p></div></div></div></div>';
-    
-}
-?>
+  
  
+  switch ($value[12]) {
 
+      case 'C':
+          $colorlbl='blue-text text-darken-3';
+          $estado='Creado';
+          break;
+      case 'I':
+          $colorlbl='light-green-text text-accent-3';
+          $estado='Inicializado';
+          break;
+      case 'P':
+          $colorlbl='orange-text text-darken-4';
+          $estado='En proceso';
+          break; 
+      case 'F':
+          $colorlbl='red-text text-accent-4';
+          $estado='Finalizado';
+          break; 
+      default:
+          $colorlbl="";
+          break;
+  }
+ 
+   echo' 
+<tr class="center-align">
+<td><i class="material-icons '. $colorlbl.' small ">label</i></td>
+<td>'.$value[5].'</td>
+<td>'.$value[1].'</td>
+<td>'.$value[10].'</td>
+<td>'.$value[11].'</td>
+<td>'. $estado.'</td>
+<td></td><td>
+<a onclick="ejecuta_boton('.$value[0].')"> <i class="material-icons small">open_in_new</i></a>
+<a onclick="eliminar_fase_concurso('.$value[12].')"><i class="material-icons small" >delete</i></a></td>
+</tr>';
+}
+?>   
 
+                                </tbody>
+                            </table>
+ 
+      
+                           
+                        </div>
                     </div>
-
                 </div>
-            </div>
-
-
-
-
+         </div>
         </main>   
 
+<form action="<?php echo URL; ?>management/creaconcurso_1" method="POST"> 
+<input type="hidden" name="IDCON_" id="IDCON_" value=""> 
+<input type="submit" id="ejecutar" style="display: none;"> 
+</form>
 
+
+<?php include_once SCRIPT_U; ?> 
+<?php include_once SCRIPT_F; ?>
     </body>
-
-
-</head>
-<body>
-
-
-
-</body>
+    <script src="<?php echo URL; ?>/public/js/globalJS.js"></script>
+<script type="text/javascript">
+//Post Editar
+    function ejecuta_boton(id)
+    {
+        $("#IDCON_").val(id); 
+        $("#ejecutar").trigger("click");
+    }
+</script>
 </html>

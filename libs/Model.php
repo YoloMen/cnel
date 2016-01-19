@@ -5,7 +5,7 @@ Class Model{
 	private static $_instance;
     
 	public function __construct(){
-        $this->db = new PDOManager('mysql', 'localhost', 'root', '', 'ssp_test');
+        $this->db = new PDOManager('mysql', 'localhost', 'root', 'root', 'ssp_test');
 	}
 /*
 	public static function getInstance(){
