@@ -30,7 +30,7 @@ Class Management_model extends Model {
 
     //Obtener concurso segun ID
     public function get_concurso($CON_ID) {
-        return $data = ["Mensaje" => "Concurso obtenido", "Concurso" => $this->db->select('*', 'SSP_CONCURSO ',"CON_ID= '$CON_ID'", PDO::FETCH_NUM)];
+        return $data = ["Mensaje" => "Concurso obtenido", "Concurso" => $this->db->select('C.* ,PTR_PADR ', 'SSP_CONCURSO C ,SSP_PUESTO_TRABAJO P'," C.PTR_ID = P.PTR_ID AND CON_ID= '$CON_ID'", PDO::FETCH_NUM)];
     }
 
 

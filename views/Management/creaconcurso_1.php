@@ -50,13 +50,13 @@
                                         <label for="CODI" <?php if($concurso!="") echo'class="active"'; ?> >Código </label>
                                     </div>
                                     <div class="input-field col l6 m4 s12">
-                                        <input id="NOMB" name="NOMB" type="text" class="validate" require> 
+                                        <input id="NOMB" name="NOMB" type="text" class="validate" <?php if($concurso!="") echo'value="'.$concurso[0][1].'"'; ?> require> 
                                         <label for="NOMB" <?php if($concurso!="") echo'class="active"'; ?> >Nombre</label>
 
                                     </div>
                                     <div class="input-field col l2 m4 s7">
-                                        <input id="NVAC" name="NVAC" type="number" value="1"  class="validate " require>
-                                        <label for="NVAC" class="active">N# Vacantes</label>
+                                        <input id="NVAC" name="NVAC" type="number" value="1"  class="validate " <?php if($concurso!="") echo'value="'.$concurso[0][5].'"'; ?> require>
+                                        <label for="NVAC" class="active" >N# Vacantes</label>
 
                                     </div>
 
@@ -101,28 +101,28 @@
 
                                     <div class="col l6 m6 s12">
                                         <div class="input-field col l6 m6 s6">
-                                            <input id="VALM"  name="VALM" type="number" value="50" class="validate">
+                                            <input id="VALM"  name="VALM" type="number" <?php if($concurso!="") echo'value="'.$concurso[0][3].'"'; else  echo'value="50"'; ?>  class="validate">
                                             <label for="VALM" class="active">% Mérito</label>
 
                                         </div>
                                         <div class="input-field col l6 m6 s6">
-                                            <input id="VALO" name="VALO" type="number" value="50" class="validate">
+                                            <input id="VALO" name="VALO" type="number" <?php if($concurso!="") echo'value="'.$concurso[0][4].'"'; else  echo'value="50"'; ?>  class="validate">
                                             <label for="VALO" class="active">% Oposición</label>
 
                                         </div>
                                         <div class="input-field col l6 m6 s12">
-                                            <input id="CFINI" name="CFINI"  type="date" class="datepicker">
+                                            <input id="CFINI" name="CFINI"  type="date" class="datepicker" <?php if($concurso!="") echo'value="'.$concurso[0][10].'"'; ?> >
                                             <label class="active" for="CFINI">Fecha Inicial</label>
                                         </div>
                                         <div class="input-field col l6 m6 s12">
-                                            <input id="CFFIN" name="CFFIN" type="date" class="datepicker">
+                                            <input id="CFFIN" name="CFFIN" type="date" class="datepicker" <?php if($concurso!="") echo'value="'.$concurso[0][11].'"'; ?> >
                                             <label class="active" for="CFFIN">Fecha Final</label>
                                         </div>
                                     </div>
 
                                     <div class="input-field col l12 m6 s12">
 
-                                        <textarea id="DESC" name="DESC"  class="materialize-textarea"></textarea>
+                                        <textarea id="DESC" name="DESC"  class="materialize-textarea"><?php if($concurso!="") echo $concurso[0][2]; ?> </textarea>
                                         <label for="DESC">Descripción</label>
                                     </div>
 
@@ -216,7 +216,17 @@
                                         </thead>
 
                                         <tbody id="detalle_fases">
-                                           
+<?php
+if($concurso!="") {
+foreach ($this->DATA['fasesConcurso'] as $key => $value) {
+echo '
+<tr class="center-align"><td>'.$value[7].'</td>
+<td>'.$value[4].'</td><td>'.$value[5].'</td>
+<td>'.$value[3].'</td><td></td>
+<td><a onclick="eliminar_fase_concurso('.$value[2].')"><i class="material-icons small" >delete</i></a></td>
+</tr>';
+}}
+?>  
                                             
                                         </tbody>
                                     </table>
@@ -552,12 +562,15 @@ foreach ($this->data['departamentos'] as $key => $value) {
     </body>
     <script src="<?php echo URL; ?>/public/js/globalJS.js"></script>
     <script src="<?php echo URL; ?>/public/js/lunr.min.js"></script>
-    <script>var URL = '<?= URL ?>'; var concursoOpciones = <?= $this->DATA['Concurso'] ?> ; </script>
+    <script>var URL = '<?= URL ?>';  </script>
+    <script>var opdepartamento = '<?php if($concurso!="") echo $concurso[0][6]; else echo "";?>'; 
+            var opdepartamentopadr = '<?php if($concurso!="") echo $concurso[0][13]; else echo ""; ?>';
+            var CONCID_ = '<?php if($concurso!="") echo $concurso[0][0]; else echo ""; ?>'
+     </script>
     <script type="text/javascript">
 
 //_________________CONSURSOENCABEZADO____________________________
 //CREA CONCURSO
-var CONCID_;
 $( "#save_all" ).click(function() {
 var cabecera_concurso = $('#cabeceraConcurso :input').serialize();
 console.log(cabecera_concurso);
@@ -765,7 +778,13 @@ switch(param)
                 
             $('#logo_departamento').hide();
             $('#logo_oferta').hide();
-            Materialize.toast(concursoOpciones);
+            if(opdepartamento !=""  && opdepartamentopadr != "")
+               {
+               $('#PUESTO').val(opdepartamentopadr);
+               $( "#PUESTO" ).trigger( "change");
+               $( "#CARGO" ).val(opdepartamento);
+                }
+
            
 
         });

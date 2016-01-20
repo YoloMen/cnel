@@ -224,7 +224,11 @@ Class Management extends Controller {
     public function creaconcurso_1() {
         $this->view->data = $this->get_allDepartamentos();
         if(isset($_POST['IDCON_']))
-        $this->view->DATA = $this->model->get_concurso($_POST['IDCON_']);    
+        { 
+            $datoConid=['CON_ID' => "'" . $_POST["IDCON_"] . "'"];
+            $this->view->DATA = $this->model->get_concurso($_POST['IDCON_']);
+            $this->view->DATA += ['fasesConcurso' => $this->model->getall_faseconcurso($datoConid)];    
+        }
         $this->view->render($this, 'creaconcurso_1');
     }
 
