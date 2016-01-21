@@ -236,85 +236,7 @@ echo '
 
                             </div>
                         </form>
-                        <form id="perfilesConcurso" >
-                            <div class="col  s12  m12 l12 z-depth-1">
-                                <div class="container " style="padding-bottom:100px;">
-                                    <div class="col l12 m12 s12 center-align ">
-                                        <h5 class="blue-text text-darken-2">Perfiles del concurso</h5>
-                                    </div>
-                                    <div class="input-field col l4 m1 s12">
-
-                                        <select id="CFASE" name="CFASE" class="browser-default" required onchange ="SelectController3($('option:selected', this));" >
-                                            <option value="NULL" selected >Fase</option>
-
-
-                                            <option value="NULL" >Crear - Editar</option>
-
-                                        </select>
-                                    </div>
-
-                                    <div class="input-field col l4 m1 s1"  >
-                                        <a id="logo_param" onclick=""><i class="material-icons small" >open_in_new</i></a>  
-                                    </div>
-
-                                    <div class="input-field col l12 m12 s12">
-                                        <div class="input-field col l4 m4 s12">
-                                            <input id="BFINI" name="BFINI"  type="date" class="datepicker">
-                                            <label class="active" for="BFINI">Fecha Inicial</label>
-                                        </div>
-                                        <div class="input-field col l4 m4 s12">
-                                            <input id="BFFIN" name="BFFIN" type="date" class="datepicker">
-                                            <label class="active" for="BFFIN">Fecha Final</label>
-                                        </div>
-
-                                        <div class="input-field col l3 m4 s12">
-                                            <input id="BVALO" name="BVALO" type="number" class="validate">
-                                            <label for="last_name">Valor</label>
-                                        </div>
-
-                                        <div  class="input-field col l1 m1 s1"  >
-                                            <a id="G_fase" class="center-align" ><i class="material-icons small" >playlist_add</i></a>  
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-
-
-
-                            <div class="col  s12  m12 l12 z-depth-1">
-                                <div class="container " style="padding-bottom:100px;">
-
-
-                                    <table class="striped highlight ">
-                                        <thead>
-
-                                            <tr>
-                                                <th data-field="id">Fase</th>
-
-                                                <th data-field="price">Fecha Inicio</th>
-                                                <th data-field="name">Fecha Fin</th>
-                                                <th data-field="name">Mérito</th>
-                                                <th data-field="name">Oposición</th>
-                                                <th data-field="name"></th>
-
-
-                                            </tr>
-                                        </thead>
-
-                                        <tbody id="detalle_fases">
-                                           
-                                            
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
-
-                            </div>
-                        </form>
+                       
                     </div>  
                 </div>
             </div>
@@ -557,9 +479,13 @@ foreach ($this->data['departamentos'] as $key => $value) {
 
 
 
-<?php include_once SCRIPT_U; ?> 
-<?php include_once SCRIPT_F; ?>
+
+
+
     </body>
+    <?php include_once SCRIPT_U; ?> 
+    <?php include_once SCRIPT_F; ?>
+    
     <script src="<?php echo URL; ?>/public/js/globalJS.js"></script>
     <script src="<?php echo URL; ?>/public/js/lunr.min.js"></script>
     <script>var URL = '<?= URL ?>';  </script>
@@ -567,6 +493,8 @@ foreach ($this->data['departamentos'] as $key => $value) {
             var opdepartamentopadr = '<?php if($concurso!="") echo $concurso[0][13]; else echo ""; ?>';
             var CONCID_ = '<?php if($concurso!="") echo $concurso[0][0]; else echo ""; ?>'
      </script>
+
+     
     <script type="text/javascript">
 
 //_________________CONSURSOENCABEZADO____________________________
@@ -781,8 +709,10 @@ switch(param)
             if(opdepartamento !=""  && opdepartamentopadr != "")
                {
                $('#PUESTO').val(opdepartamentopadr);
-               $( "#PUESTO" ).trigger( "change");
-               $( "#CARGO" ).val(opdepartamento);
+               $( "#PUESTO" ).trigger("change");
+                    
+              
+               
                 }
 
            
@@ -968,6 +898,8 @@ function cargar_puestos_trabajo(response){
   });
 
     $("#CARGO").append('<option value="NULL" >Crear - Editar</option>');
+    if(opdepartamento!="")
+        $( "#CARGO" ).val(opdepartamento);
 }
 
 

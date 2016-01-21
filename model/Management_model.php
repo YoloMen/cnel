@@ -3,7 +3,7 @@
 Class Management_model extends Model {
 
     public function __construct() {
-        parent::__construct();
+         $this->db = parent::getInstance();
     }
 
     public function setConcurso($CONCURSO_DATOS) {

@@ -22,9 +22,9 @@ Class Service extends Controller{
 			default:
 			break;
 		}
-		
-		
+				
 	}
+
 }
 
 ?>

@@ -3,7 +3,6 @@
 Class Session {
 	public static function init(){
 		@session_start();
-
 	}
 
 	public static function destroy(){
@@ -11,6 +10,10 @@ Class Session {
 	}
 
 	public static function getValue ($key){
+		if(!isset($_SESSION[$key])){
+			return false;
+		}
+		
 		return $_SESSION[$key];
 	}
 

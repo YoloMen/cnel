@@ -7,8 +7,7 @@ Class View {
 		// view/User/index.php
 		require './views/'.$controller.'/'.$view.'.php';
 	}
-        
-
+       
 }
 
 ?>

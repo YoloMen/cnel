@@ -9,11 +9,10 @@ class PDOManager extends PDO{
 		$this->DB_PASS= $DB_PASS;
 		$this->DB_NAME= $DB_NAME;
                 
-                try {
-                    parent::__construct($DB_TYPE.':host='.$DB_HOST.';dbname='.$DB_NAME.';charset=utf8', $DB_USER, $DB_PASS);
-              
-                }catch (PDOException $e) {
-
+        try {
+                parent::__construct($DB_TYPE.':host='.$DB_HOST.';dbname='.$DB_NAME.';charset=utf8', $DB_USER, $DB_PASS);
+          
+        }catch (PDOException $e) {
 		
 			printf("Connect failed: ". $e->getMessage());
                        // $this=null;
@@ -50,7 +49,7 @@ class PDOManager extends PDO{
 	public function select($attr,$table,$where = '',$fetchMode = PDO::FETCH_ASSOC){
 		$where = ($where != '' ||  $where != null) ? "WHERE ".$where : '';
 		$sql = "SELECT ".$attr." FROM ".$table." ".$where.";";
-		//echo($sql);
+	
 		$result = $this->prepare($sql);
                 
         $result->execute();    
@@ -65,80 +64,55 @@ class PDOManager extends PDO{
 	* de datos MySQL
 	*
 	* @param String $table Tabla en la que se insertarán los datos
-	* @param Array $values Arreglo de datos a insertar cuyo indice corresponde
-	*					   al atributo en la base de datos.
-	* @param String $where condicional (opcional) de la selección
-	* @param Boolean $sanear Condicional que determina si debe ser saneada la cadena
+	* @param Array $values Arreglo de datos a insertar ["NOMBRE_CAMPO" => ["VALUE" => VALUE, "TYPE"=PDO::TYPE]]	
+	* @param Boolean $bind Condicional que determina si debe ser sanear(PDO) los parametros
 	*
 	* @return Boolean $response true/false
 	*/
-	/*function insert($table,$values, $returnSQL = false){
+	function insert($table,$values, $bind = false){
                 
         $columnas = null;
         $valores = null;
-            
-		foreach ($values as $key => $value) {
-			$columnas.=$key.",";
-			$valores .= $value.",";
+
+		if(!$bind){
+			foreach ($values as $key => $value) {
+				$columnas.=$key.",";
+				$valores .= $value.",";
+			}
+		}else{
+			foreach ($values as $key => $value) {
+				$columnas.=$key.",";
+				$valores .= ":".$key.",";
+			}
 		}
 
-		substr($columnas, 0, -1);
-		substr($valores, 0, -1);
+		$columnas=substr($columnas, 0, -1);
+		$valores =substr($valores, 0, -1);
+
 
 		$sql = "INSERT INTO ".$table." (".$columnas.") VALUES(".$valores.");";
+		$result = $this->prepare($sql);
 
-		if($returnSQL){
-			return $sql;
+		if($bind){
+			foreach ($values as $key => $value) {
+				$result->bindValue(":".$key, $value["value"], $value["type"]);
+				//echo "key= :".$key." value=".$value["value"]." type=".$value["type"]."\n";
+			}
 		}
 
-		$result = $this->prepare($sql);
-        $response = $result->execute($sql);
-		return $response;
-	}*/
+		return $result->execute();
 
-	function insert($table,$values, $bind = false){
-               
-       $columnas = null;
-       $valores = null;
+		/*if($result->execute();){
+			if ($result->rowCount() > 0){
+				return $result->rowCount();
+			}
+		}else{
+			echo $result->errorInfo();
+			echo 'FAIL';
+			//return false;
+		}*/
 
-               if(!$bind){
-                       foreach ($values as $key => $value) {
-                               $columnas.=$key.",";
-                               $valores .= $value.",";
-                       }
-               }else{
-                       foreach ($values as $key => $value) {
-                               $columnas.=$key.",";
-                               $valores .= ":".$key.",";
-                       }
-               }
-
-               $columnas=substr($columnas, 0, -1);
-               $valores =substr($valores, 0, -1);
-
-
-               $sql = "INSERT INTO ".$table." (".$columnas.") VALUES(".$valores.");";
-              
-            	//echo $sql;
-               $result = $this->prepare($sql);
-               if($bind){
-                       foreach ($values as $key => $value) {
-                               $result->bindValue(":".$key, $value["value"], $value["type"]);
-                               //echo "key= :".$key." value=".$value["value"]." type=".$value["type"]."\n";
-                       }
-               }
-
-               if($result->execute()){
-                       if ($result->rowCount() > 0){
-                               return $result->rowCount();
-                       }
-               }else{
-                       echo $result->errorInfo();
-                       echo 'FAIL';
-                       //return false;
-               }
-
-       }
+	}
 	/**
 	* UPDATE
 	*
@@ -149,14 +123,14 @@ class PDOManager extends PDO{
 	*
 	* @param String $table Tabla de la base de datos
 	* @param Array<String> $values Valores ordenados en formato [attr] = value  
+	* @param Boolean $aud especifica los campos de auditoria (Creación || Modificación)
 	* @param String $where Sentencia where
 	* @param Boolean $bind Enlaza los parámetros [attr = :attr]
 	* @param Boolean $returnSQL retorna Sentencia SQL
 	*
 	* @return Boolean $response
 	*/
-	function update($table,$values,$where, $aud = false, $bind = false, $returnSQL = false){
-          
+	function update($table, $values, $aud = false, $where , $bind = false, $returnSQL = false){       
         $subStmt = null;
       
 		if(!$bind){
@@ -169,39 +143,40 @@ class PDOManager extends PDO{
 			}
 		}
 
-		
 		if($aud){
 			$subStmt.= $aud;
 		}else{
-			$subStmt.= substr($subStmt, 0, -2);
+			$subStmt = substr($subStmt, 0, -2);
 		}
 				
-
 		$sql = "UPDATE $table SET $subStmt WHERE $where ;";
 
-		if($returnSQL){
+		if($returnSQL)
 			return $sql;
-		}
-
-
+		
 		$result = $this->prepare($sql);
 		
 		if($bind){
-                       foreach ($values as $key => $value) {
-                               $result->bindValue(":".$key, $value["value"], $value["type"]);
-                               //echo "key= :".$key." value=".$value["value"]." type=".$value["type"]."\n";
-                       }
-               }
+			foreach ($values as $key => $value) {
+				$result->bindValue(":".$key, $value["value"], $value["type"]);
+				//echo "key= :$key ________ value: ".$value["value"]." \n";
+			}
+		}
 
-               if($result->execute()){
-                       if ($result->rowCount() > 0){
-                               return $result->rowCount();
-                       }
-               }else{
-                       echo $result->errorInfo();
-                       echo 'FAIL';
-                       //return false;
-               }
+		$result->execute();
+		if ($result->rowCount() > 0){
+			return true;
+		}else{
+			return false;
+		}	
+
+		/*if($result->execute()){
+			if ($result->rowCount() > 0)
+				return $result->rowCount();
+		}else{
+			echo $result->errorInfo();
+			echo 'FAIL';
+		}*/
 
 	}
 	/**
@@ -219,23 +194,23 @@ class PDOManager extends PDO{
 	*
 	* @return Boolean $response
 	*/
-	function delete($table,$where = false){
-		
+	function delete($table, $where = false){
+		if(!$where){
+			return false;
+		}
 
-		$sql = 'DELETE FROM '.$table.' WHERE '.$where;
+		$sql = "DELETE FROM $table WHERE $where";
 
-		$result = $this->prepare($sql);
-		//echo $sql;
-	
-		if($result->execute()){
-                       if ($result->rowCount() > 0){
-                               return $result->rowCount();
-                       }
-               }else{
-                       echo $result->errorInfo();
-                       echo 'FAIL';
-                       //return false;
-               }
+		$query = $this->prepare($sql);
+		$query->execute();
+
+		if ($query->rowCount() > 0) {
+		  return true;
+		}
+
+		return false;
+
+
 	}
 	/**
 	* CHECK
@@ -254,17 +229,17 @@ class PDOManager extends PDO{
 		$where = ($where != '' ||  $where != null) ? "WHERE ".$where : '';
 		$sql = "SELECT ".$attr." FROM ".$table." ".$where.";";
 		$result = $this->prepare($sql);
-
-		   if($result->execute()){
-                       if ($result->rowCount() > 0){
-                               return true;
-                       }else
-                        		return false;
-               }else{
-                       echo $result->errorInfo();
-                       echo 'FAIL';
-                       //return false;
-               }
+	
+		if($result->execute()){
+	       if ($result->rowCount() > 0)
+	        	return true;
+	       else
+	        	return false;
+	   }else{
+	           echo $result->errorInfo();
+	           echo 'FAIL';
+	           //return false;
+	   }
 	}
 
 	function startTransaction ($SQLs){

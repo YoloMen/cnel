@@ -15,12 +15,23 @@
 		.table-of-contents a.active {
 	    font-weight: 500;
 	    padding-left: 18px;
-	    border-left: 4px solid #0d47a1;
+	    border-left: 1px solid #0d47a1;
 		}
 
-		.table-of-contents a:hover{
-			border-left: 1px solid #0d47a1;
+		li.jtabs > a:hover{
+			border-left: 5px solid #0d47a1;
 		}
+
+     li.jtabs, li.jtabs > a {
+      padding:0px 0px 0px 0px;
+      height: 40px;
+    }
+
+    table{
+      overflow-x: auto;
+      display: block;
+    }
+
 
 		
 	}
@@ -44,41 +55,52 @@
 		    background-color: #0d47a1;
 		}
 
-	
-	.iconC{
-		color: #0d47a1;
-	}
+  }
 
-}
-select.browser-default {
+  select.browser-default {
     background-color: rgba(255,255,255,0.9);
     width: 145px;
     padding: 0 0 0 0; 
     border: none;
     border-radius: none; 
     height: inherit;
- }
+  }
 
- label.lll{
- 	/*padding-top: 10px;*/
- 	top:0px;
- }
+  label.lll{
+   	/*padding-top: 10px;*/
+   	top:0px;
+  }
 
- select{
- 	margin-top: 20px;
- }
+  select{
+ 	  margin-top: 20px;
+  }
 
- .input-field{
- 	margin-top: 0px;
- }
+  .input-field{
+ 	  margin-top: 0px;
+  }
 
- select.browser-default{
- 	border: 1px solid #000;
- }
+  select.browser-default{
+ 	  border: 1px solid #000;
+  }
 
- select:focus {
+  select:focus {
     outline: 2px solid #f44336;
- }
+  }
+
+  @media only screen and (max-width: 600px){
+    .languageWS, .levelW, .levelS {
+      font-size: 11px;
+    }
+  }
+
+  .dropdown-content li>a{
+    color: #0d47a1;
+  }
+
+  select.browser-default.selectS{
+    width:105px;
+  }
+
 	
 </style>
 
@@ -114,17 +136,33 @@ select.browser-default {
  <div class="container z-depth-1" id="containerHV" >
 </div>
 
-  <div class="fixed-action-btn jSend" style="bottom: 45px; right: 24px;">
+  <div class="fixed-action-btn send1" style="bottom: 45px; right: 24px;display:none;">
     <a class="btn-floating btn-large red">
       <i class="large material-icons">save</i>
     </a>
   </div>
+
+
+<!-- Modal CONFIRMATION-->
+<div id="modalCON" class="modal">
+  <div class="modal-content center-align">
+    <p><i class="material-icons medium blue-text">info</i></p>
+    <h5></h5>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript:" class="modal-action modal-close waves-effect waves-green blue-text btn-flat" id="cancel">Cancelar</a>
+    <a href="javascript:" class="modal-action modal-close waves-effect waves-red  red-text  btn-flat" id="accept">Aceptar</a>
+  </div>
+</div>
+
+
    
 </main>
 
 <?php include_once SCRIPT_U;?>
 <script>var URL = '<?=URL?>';</script>
 <script src="<?=URL.'public/js/controllerAspirante.js'?>"></script>
+
 </body>
 </html>
         

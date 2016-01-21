@@ -12,6 +12,18 @@ Class Management extends Controller {
         $this->view->render($this, 'index');
     }
 
+    //Cargamos la vista gestion_aspirante
+    public function gestion_aspirante() {
+       
+        $this->view->render($this, 'gestion_aspirante');
+    }
+    //Cargamos la vista concurso_aspirante
+    public function concurso_aspirante() {
+       
+        $this->view->render($this, 'concurso_aspirante');
+    }
+    
+
     //Cargamos la vista index del usuario
     public function calendario() {
         $this->view->DATA=$this->model->getallConcurso();
@@ -230,6 +242,18 @@ Class Management extends Controller {
             $this->view->DATA += ['fasesConcurso' => $this->model->getall_faseconcurso($datoConid)];    
         }
         $this->view->render($this, 'creaconcurso_1');
+    }
+    //Obtiene valores de concurso segun ID
+    public function get_concursobyID(){
+
+          if(isset($_POST['IDCON_']))
+        { 
+            $datoConid=['CON_ID' => "'" . $_POST["IDCON_"] . "'"];
+            $DATA = $this->model->get_concurso($_POST['IDCON_']);
+            $DATA += ['fasesConcurso' => $this->model->getall_faseconcurso($datoConid)];    
+             echo json_encode($DATA);
+        }
+
     }
 
     public function cabecera_concurso() {

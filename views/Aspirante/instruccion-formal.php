@@ -1,5 +1,10 @@
 <?php
-$IF = 0;
+  $education_level = $this->data['education_level'];
+  $institution = $this->data['institution'];
+  $study_area = $this->data['study_area'];
+
+  $formal_education = $this->data['formal_education'];
+
 ?>
 <h5 class="center-align">Instrucción formal</h5>
 <div clas="row">
@@ -9,16 +14,20 @@ $IF = 0;
   </div>
 
 
-  <form>
+<form>
     <div class="row">
       <div class="col l12 m12 s12">
         <div class="col l6 m6 s4">
           <h6 class="right-align">Nivel de instrucción formal</h6>
         </div>
         <div class="col l6 m6 s8">
-            <select name="BEIF_ni" id="BEIF_ni" class="browser-default" required style="margin-top: 0px;"> 
-              <option value="">Seleccione una opción</option>
-              <option value="">PRIMARIA</option>
+            <select name="IFNSTR" id="IFNSTR" class="actS browser-default" required style="margin-top: 0px;"> 
+              <option value="">Seleccione</option>
+              <?php
+                for ($i=0; $i < count($education_level); $i++) { 
+                  echo '<option value="'.$education_level[$i][0].'">'.$education_level[$i][1].'</option>';
+                }
+              ?>
             </select>
         </div>
       </div>
@@ -26,126 +35,157 @@ $IF = 0;
     </div>
 
   <div class="row">
-      <div class="col l12 m12 s12">
-      
-        <!-- PRIMARIA -->
-          <!-- <div class="col l8 m8 s12">
-            <div class="input-field col offset-l2 l10 m12 s12">
-              <input id="BEDP_c2" name="BEDP_c2" type="text" maxlength="15" class="validate"  value=''required>
-              <label for="BEDP_c2">Titulo obtenido</label>
-            </div> 
-          </div>
 
-          <div class="col l4 m4 s12">
-            <div class="input-field col l8 m12 s12">
-              <input id="BEDP_ce" name="BEDP_ce" type="text" maxlength="15" class="validate"  value=''required>
-              <label for="BEDP_ce">Tiempo de estudio</label>
-            </div>
-          </div>
-          </div> -->
+    <div class="col l12 m12 s12" id="contIF1" style="display:none;">
+      <div class="col l8 m8 s12">
+        <div class="input-field col offset-l2 l10 m12 s12">
+          <input id="IFNOMB1" name="IFNOMB1" type="text" maxlength="140" class="actI validate"  value=''>
+          <label for="IFNOMB1" class="actL">Titulo obtenido</label>
+        </div>
+      </div>
+      <div class="col l4 m4 s12">
+        <div class="input-field col l8 m12 s12">
+          <input id="IFTIEM1" name="IFTIEM1" type="text" maxlength="2" class="actI validate" placeholder="En años" value=''>
+          <label class="active" for="IFTIEM1">Tiempo de estudio</label>
+        </div>
+      </div>
 
-        
+      <div class="col l12 m12 s12" id="querycontIF1">
+      </div>
+    </div>
+
+    <div class="col l12 m12 s12" id="contIF2" style="display:none;">    
+      <div class="col l12 m12 s12">   
         <div class="col l6 m12 s12">
           <div class="input-field col l6 offset-m2 m4">
-            <label for="BEDP_c2" class="lll">Institución educativa</label>
-            <select name="BEDP_ec" class="browser-default" required style="width:150px">
-              <option value="">Seleccione opción</option>
-              <option value="">...</option>
-              <option value="">...</option>
+            <label for="IFINST" class="lll">Institución educativa</label>
+            <select name="IFINST" id="IFINST" class="actS browser-default">
+              <option value="">Seleccione</option>
+              <?php
+                $x = null;
+                for ($i=0; $i < count($institution); $i++) { 
+                  $x.= '<option value="'.$institution[$i][0].'">'.$institution[$i][1].'</option>';
+                }
+                echo $x;
+              ?>
             </select>
           </div>
           
-          <div class="input-field col l6 m6 s12">
-            <input id="BEDP_c2" name="BEDP_c2" type="text" maxlength="15" class="validate"  value=''required>
-            <label for="BEDP_c2">Nombre Institución</label>
+          <div class="input-field col l6 m6 s12" id="OINS" style="display:none;">
+            <input id="IFOINS" name="IFOINS" type="text" maxlength="100" class="actI validate"  value=''>
+            <label for="IFOINS" class="actL">Nombre Institución</label>
           </div> 
 
         </div>
 
         <div class="col l6 m12 s12">
           <div class="input-field col l10 m12 s12">
-            <input id="BEDP_c2" name="BEDP_c2" type="text" maxlength="15" class="validate"  value=''required>
-            <label for="BEDP_c2">Titulo obtenido</label>
+            <input id="IFNOMB" name="IFNOMB" type="text" maxlength="140" class="actI validate"  value=''>
+            <label for="IFNOMB" class="actL">Titulo obtenido</label>
           </div> 
         </div>
       
 
-      <div class="col l12 m12 s12">
+        <div class="col l12 m12 s12">
 
-          <div class="col l2 m4 s8 right-align">Tiempo de estudio:</div>
-          <div class="input-field col l1 m2 s4">
-            <input id="BEDP_c2" name="BEDP_c2" type="text" maxlength="15" class="validate"  value=''required>
+          <div class="input-field col l2 m6 s6">
+            <input name="IFTIEM" id="IFTIEM" type="text" maxlength="2" class="actI validate" placeholder="En años">
+            <label for="IFTIEM" class="active">Tiempo de estudio</label>
           </div>
-          
-          <div class="col l3 m4 s8 right-align">Año de egresamiento o graduación:</div>
-          <div class="input-field col l1 m2 s4">
-            <input id="BEDP_c2" name="BEDP_c2" type="text" maxlength="15" class="validate"  value=''required>
-          </div> 
 
-          <div class="col l3 m6 s8 right-align">N° registro del SENESCYT:</div>
-          <div class="input-field col l2 m3 s4">
-            <input id="BEDP_c2" name="BEDP_c2" type="text" maxlength="15" class="validate"  value=''required>
-          </div>  
+          <div class="input-field col offset-l1 l2 m6 s6">
+            <input name="IFFGRA" id="IFFGRA" type="text" maxlength="10" class="actI validate" placeholder="yyyy-mm-dd">
+            <label for="IFFGRA" class="active">Fecha de graduación</label>
+          </div>
 
-    
+          <div class="input-field col offset-l1 l2 m6 s12">
+            <label class="lll">Área de estudios</label>
+            <select name="IFAEST" id="IFAEST" class="actS browser-default">
+              <option value="">Seleccione</option>
+              <?php
+                $x = null;
+                for ($i=0; $i < count($study_area); $i++) { 
+                  $x.= '<option value="'.$study_area[$i][0].'">'.$study_area[$i][1].'</option>';
+                }
+                echo $x;
+              ?>
+            </select>
+          </div>
+
+          <div class="input-field col l2 m6 s12">
+            <input name="IFSENE" id="IFSENE" type="text" maxlength="40" class="actI validate" placeholder="N° registro">
+            <label for="IFSENE" class="active">SENESCYT</label>
+          </div>
+
+          <div class="col l2 m6 s12">
+            <a href="http://www.senescyt.gob.ec/web/guest/index.php/consultas" target="_BLANK">Consultar N° SENESCYT AQUI</a>
+          </div>
+
+        </div>
+
 
       </div>
 
+    <input type="submit" id="subFORM" style="display:none;">
+    <input type="hidden" value="instruccion-formal" name="ID" id="JIFID">
+    </div>
+  </div>
+</form>
+</div>
 
+<div class="row">
+  <div class="col l12 m12 s12">
+    <p class="center-align contentBtn"><a class="btn-floating waves-effect waves-light red send2"><i class="material-icons medium">save</i></a></p>
+  </div>
+
+  <div class="col l12 m12 s12">
+    <h6 class="center-align red white-text">Historial de instrucción formal</h6>
   </div>
 
 
+  <div class="col l12 m12 s12 ">
+    <table class="centered">
+      <thead>
+        <tr>
+          <th>NIVEL INSTRUCCIÓN</th>
+          <th>INSTITUCIÓN EDUCATIVA</th>
+          <th>TÍTULO OBTENIDO</th>
+          <th>N. REGISTRO DEL SENESCYT</th>
+          <th>ACCIÓN</th>
+        </tr>
+      </thead>
 
+      <tbody class="tableContent">
+        <?php
+          if ($formal_education) {
+            $row = '';
+            for ($i=0; $i < count($formal_education); $i++) { 
 
-      <div class="col l12 m12 s12" id="contentIF">
-      </div>
-
-      <div class="col l12 m12 s12">
-        <p class="center-align" id="contentBtnIF" style="margin-bottom:20px"><a class="btn-floating waves-effect waves-light red btnSaveIF"><i class="material-icons medium">save</i></a></p>
-      </div>
-
-      <div class="col l12 m12 s12">
-        <h6 class="center-align red white-text">Historial de instrucción formal</h6>
-      </div>
-
-
-        <div class="col l12 m12 s12 ">
-          <table class="tableCBE">
-            <thead>
-              <tr>
-                <th data-field="NIVEL INSTRUCCIÓN">NIVEL INSTRUCCIÓN</th>
-                <th data-field="INSTITUCIÓN EDUCATIVA">INSTITUCIÓN EDUCATIVA</th>
-                <th data-field="TÍTULO OBTENIDO">TÍTULO OBTENIDO</th>
-                <th data-field="N. REGISTRO DEL SENESCYT">N. REGISTRO DEL SENESCYT</th>
-              </tr>
-            </thead>
-
-            <tbody id="_contentIF">
-              <?php
-
-                if ($IF) {
-                  $row = '';
-                  $countIF = count($IF);
-                  for ($i=0; $i < $countIF; $i++) { 
-                    $instruccionS= $comboInstruccion[$IF[$i][6]-1][1];
-                    $idClient = "_:".rand().":".rand(0,$countIF).":spatium".rand().":".$IF[$i][0].":id:".rand();
-                    $token= hash('sha256', $idClient);
-
-                    $row.='<tr data-token="'.$token.'" data-id="'.$idClient.'">'.
-                    '<td data-label="NIVEL INSTRUCCIÓN">'.$instruccionS.'</td>'.
-                    '<td data-label="INSTITUCIÓN EDUCATIVA">'.$IF[$i][1].'</td>'.
-                    '<td data-label="TÍTULO OBTENIDO">'.$IF[$i][3].'</td>'.
-                    '<td data-label="N. REGISTRO DEL SENESCYT">'.$IF[$i][4].'</td>'.
-                    '<td data-label="ACCIÓN"><a href="javascript:" class="_deleteIF"><i class="material-icons">delete</i></a><a  href="javascript:" class="_editIF"><i class="material-icons">edit</i></a></td>'.
-                    '</tr>';
-                  }
-
-                  echo $row;
+              $fe = $education_level[$formal_education[$i][1]-1][1];
+              if($fe === 'PRIMARIA' || $fe === 'SECUNDARIA'){
+                $inst = null;
+              }else{
+                if($formal_education[$i][5]){
+                  $inst = $formal_education[$i][5];
+                }else{
+                  $inst= $institution[$formal_education[$i][2]-1][1];
                 }
-              ?>
+              }
+             
+              $row.='<tr data-id="'.$formal_education[$i][0].'">'.
+              '<td>'.$fe.'</td>'.
+              '<td>'.$inst.'</td>'.
+              '<td>'.$formal_education[$i][3].'</td>'.
+              '<td>'.$formal_education[$i][4].'</td>'.
+              '<td><a href="javascript:" class="delete"><i class="material-icons">delete</i></a><a  href="javascript:" class="edit"><i class="material-icons">edit</i></a></td>'.
+              '</tr>';
+            }
+            echo $row;
+            //'<td>'.$institution[$formal_education[$i][1]-1][1].'</td>'.
+          }
+        ?>
+      </tbody>
+    </table>
+  </div>
 
-            </tbody>
-          </table>
-        </div>
-  </form>
 </div>

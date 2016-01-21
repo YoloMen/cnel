@@ -488,7 +488,7 @@ else {
 
       // Constrain width
       if (options.constrain_width === true) {
-        activates.css('width', origin.outerWidth());
+        activates.css('width', 'auto');
       }
       else {
         activates.css('white-space', 'nowrap');
