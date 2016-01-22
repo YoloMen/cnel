@@ -1,23 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include_once HEAD_F; ?>
+        <?php include_once HEAD_U; ?>
     </head>
     <body>
-        <header>
+ 
 
             <?php include_once MENU_F; ?>
-
-        </header>
-
-
-
-        <main>
-            <div class="center-align blue darken-4 z-depth-1">
-                <img src="<?php echo URL; ?>public/images/logo.png" alt="" class="circle responsive-img">
-                <h5 class="center-align white-text light">ADMINISTRADOR PERSONAL - CNEL</h5>
-            </div>
-
 
             <div class="row ">
                 <div class="container ">
@@ -94,10 +83,6 @@
 
                 </div>
             </div>
-
-
-
-        </main>   
 
 
         <!-- Modal Deártamento -->
@@ -249,7 +234,7 @@
 
 
         <?php include_once SCRIPT_U; ?>	
-        <?php include_once SCRIPT_F; ?>
+    
     </body>
     <script>
         $(document).ready(function () {

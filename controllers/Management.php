@@ -5,18 +5,70 @@ Class Management extends Controller {
     public function __construct() {
         parent:: __construct();
     }
-
+//________________________VISTAS RENDERIZADAS___________________________//
     //Cargamos la vista index del usuario
     public function index() {
-
         $this->view->render($this, 'index');
     }
-
     //Cargamos la vista gestion_aspirante
     public function gestion_aspirante() {
-       
+
         $this->view->render($this, 'gestion_aspirante');
     }
+    //Cargamos vista de concursos
+    public function concursos() {
+        $this->view->DATA=$this->model->getallConcurso();
+        $this->view->render($this, 'concursos');
+    }
+    //Cargamos vista de creacion de concurso
+    public function creaconcurso() {
+        $this->view->data = $this->get_allDepartamentos();
+        if(isset($_POST['IDCON_']))
+        { 
+            $datoConid=['CON_ID' => "'" . $_POST["IDCON_"] . "'"];
+            $this->view->DATA = $this->model->get_concurso($_POST['IDCON_']);
+            $this->view->DATA += ['fasesConcurso' => $this->model->getall_faseconcurso($datoConid)];    
+        }
+        $this->view->render($this, 'creaconcurso');
+    }
+     //Cargamos vista de concursos por reclutar 
+    public function reclutamiento() {
+        $this->view->DATA=$this->model->getallConcurso("CON_ESTA='I'"); //Devuelve concursos inicializados
+        $this->view->render($this, 'reclutamiento');
+    }
+    //Cargamos vista de reclutamiento de personal
+    public function reclutar() {
+        if(isset($_POST['IDCON_']))
+        { 
+            $this->view->data =$this->datos_concurso($_POST['IDCON_']);
+            $this->view->render($this, 'reclutar');
+        }
+    }
+     //Cargamos vista de concursos por calificar
+    public function calificaciones() {
+        $this->view->DATA=$this->model->getallConcurso("CON_ESTA='P'"); //Devuelve concursos inicializados
+        $this->view->render($this, 'calificaciones');
+    }
+    //Cargamos vista de calificacion del personal
+    public function calificar() {
+        if(isset($_POST['IDCON__']))
+        { 
+            echo $_POST['IDCON__'];
+            $this->view->data =$this->datos_concurso($_POST['IDCON__']);
+            $this->view->render($this, 'calificar');
+        }
+
+    }
+//______________________________________________________________________//
+    //Obtenemos los datos y fases de un concurso en base a su ID
+    public function datos_concurso($CON_ID) {
+            $datoConid=['CON_ID' => "'" . $CON_ID . "'"];
+            $DATA = $this->model->get_concurso($CON_ID);
+            $DATA += ['fasesConcurso' => $this->model->getall_faseconcurso($datoConid)];    
+
+            return $DATA;
+    }
+
     //Cargamos la vista concurso_aspirante
     public function concurso_aspirante() {
        
@@ -220,10 +272,7 @@ Class Management extends Controller {
         $this->view->render($this, 'fases');
     }
 
-    public function concursos() {
-        $this->view->DATA=$this->model->getallConcurso();
-        $this->view->render($this, 'concursos');
-    }
+   
     //FUNCION QUE OBTIENE TODOS LOS CONCURSOS CREADOS
     public function getall_concursos() {
         echo json_encode($this->model->getallConcurso());
@@ -233,16 +282,7 @@ Class Management extends Controller {
         $this->view->render($this, 'departamentos');
     }
 
-    public function creaconcurso_1() {
-        $this->view->data = $this->get_allDepartamentos();
-        if(isset($_POST['IDCON_']))
-        { 
-            $datoConid=['CON_ID' => "'" . $_POST["IDCON_"] . "'"];
-            $this->view->DATA = $this->model->get_concurso($_POST['IDCON_']);
-            $this->view->DATA += ['fasesConcurso' => $this->model->getall_faseconcurso($datoConid)];    
-        }
-        $this->view->render($this, 'creaconcurso_1');
-    }
+    
     //Obtiene valores de concurso segun ID
     public function get_concursobyID(){
 

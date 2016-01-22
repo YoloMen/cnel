@@ -1,20 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include_once HEAD_F; ?>
+        <?php include_once HEAD_U; ?>
         <?php include_once CALENDAR; ?>
     </head>
     <body>
-        <header>
-
-            <?php include_once MENU_F; ?>
-
-        </header>
-        <main>
-            <div class="center-align blue darken-4 z-depth-1">
-                <img src="<?php echo URL; ?>public/images/logo.png" alt="" class="circle responsive-img">
-                <h5 class="center-align white-text light">ADMINISTRADOR PERSONAL - CNEL</h5>
-            </div>
+          <?php include_once MENU_F; ?>
             <div class="row ">
                 <div class="container ">
                     <button class="btn waves-effect waves-light" type="submit" name="action" onclick="location.href='<?php echo URL; ?>management/creaconcurso_1';">Crear
@@ -106,9 +97,9 @@ foreach ($this->DATA['Concursos'] as $key => $value) {
                     </div>
                 </div>
          </div>
-        </main>   
+ 
 
-<form action="<?php echo URL; ?>management/creaconcurso_1" method="POST"> 
+<form action="<?php echo URL; ?>management/creaconcurso" method="POST"> 
 <input type="hidden" name="IDCON_" id="IDCON_" value=""> 
 <input type="submit" id="ejecutar" style="display: none;"> 
 </form>
@@ -119,10 +110,18 @@ foreach ($this->DATA['Concursos'] as $key => $value) {
 
 </body>
 <?php include_once SCRIPT_U; ?> 
-<?php include_once SCRIPT_F; ?>
+
 <script src="<?php echo URL; ?>/public/js/globalJS.js"></script>
 <?php include_once JSPDF ?>
 <script type="text/javascript">
+ 
+  $( document ).ready(function(){
+             $(".button-collapse").sideNav();
+             $("#mconcursos").attr("class","active");
+  })
+
+
+
   function concursoPDF(id)
   {
      fajax({'IDCON_' : id}, '<?php echo URL; ?>/management/get_concursobyID', get_concursoPDF);
