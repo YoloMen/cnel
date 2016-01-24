@@ -15,8 +15,8 @@
 
 
 function get_aspirantes(){
+$('#preload').openModal();
 
-$('#aspirantesModal').openModal();
 
 parametros ={
   'InstruccionFormal' : F_instruccion_formal()
@@ -32,7 +32,7 @@ parametros ={
 function get_aspirantes_response(response){
 var obj = JSON.parse(response);
 console.log(obj['Aspirantes']);
-$("#ResultadoAspirantes").empty();
+$("#ResultadoAspirantes_").empty();
   $.each(obj['Aspirantes'], function (key, value) {
 
   var fila = '<tr class="center-align">';
@@ -42,12 +42,13 @@ $("#ResultadoAspirantes").empty();
       fila += '<td>' + value[2] +' ' + value[3] +' ' + value[4] +' '+ value[5] + '</td>';
       fila += '<td>'+ value[6] +'</td>';
       fila += '<td><a onclick="ver_concurso(' +  value[0] + ')"> <i class="material-icons teal-text text-lighten-3  small">visibility</i></a>';
-      fila += '<input type="checkbox" id="ch'+ value[0] + '" />';
+      fila += '<input type="checkbox" id="ch'+ value[0] + '" name="ch'+ value[0] + '"  value="'+ value[0] + '" />';
       fila += '<label for="ch' + value[0] + '"></label></td></tr>';
-$("#ResultadoAspirantes").append(fila);
+$("#ResultadoAspirantes_").append(fila);
 
             });
-
+  $('#preload').closeModal();
+  $('#aspirantesModal').openModal();//Abre el modal luego de cargar opciones
 }
 
 //_________________________FILTRO DE BUSQUEDA_______________________________
@@ -92,3 +93,52 @@ function F_discapacidad(){
     return null;
 }
 //______________________________________________________________________________
+
+//Guarda los aspirantes seleccionados.
+function saveAspiranteToConcurso(){
+$('#aspirantesModal').closeModal();
+$('#preload').openModal();
+var asp_selected=$('#formResultadoAspirantes :input').serializeArray();
+console.log(asp_selected);
+parametre ={'IDCON_' : IDCONC , 'ASP_SELECTED' : asp_selected};
+fajax(parametre, URL+"/management/set_aspirantes_concurso", saveAspiranteToConcurso_response);
+
+}
+
+//Respuesta desppues de enviar a guardar los aspirantes
+function saveAspiranteToConcurso_response(response){
+  console.log(response);
+var obj = JSON.parse(response);
+Materialize.toast(obj['Mensaje'],4000);
+//Actualizamos la tabla de aspirantes_concurso
+fajax({'IDCON_' : IDCONC }, URL+"/management/JSONgetAspirantesbyCONID", get_aspirantes_concurso_response);
+
+
+}
+
+//Respuesta desppues de solicitar los aspirantes del concurso actual
+function get_aspirantes_concurso_response(response){
+var obj = JSON.parse(response);
+console.log(obj);
+Materialize.toast(obj['Mensaje'],2000);
+$('#aspiranteConcruso_reclutado').empty();
+  
+  $.each(obj['AspirantesConcurso'], function (key, value) {
+
+  var fila = '<tr class="center-align">';
+      fila += '<td id="A_CODE" style="display:none;">' + value[0] + '</td>';
+      fila += '<td><i class="material-icons light-green-text text-accent-3 small ">label</i></td>';
+      fila += '<td>' + value[1] + '</td>';
+      fila += '<td>' + value[2] +' ' + value[3] +' ' + value[4] +' '+ value[5] + '</td>';
+      fila += '<td>'+ value[6] +'</td>';
+      fila += '<td><a onclick="ver_concurso(' +  value[0] + ')"> <i class="material-icons teal-text text-lighten-3  small">visibility</i></a>';
+      fila += '<a onclick="ver_concurso(' +  value[0] + ')"> <i class="material-icons teal-text text-lighten-3  small">delete</i></a></td></tr>';
+$("#aspiranteConcruso_reclutado").append(fila);
+
+            });
+  $('#preload').closeModal();
+
+}
+
+
+      

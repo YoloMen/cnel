@@ -91,6 +91,7 @@ class PDOManager extends PDO{
 
 
 		$sql = "INSERT INTO ".$table." (".$columnas.") VALUES(".$valores.");";
+		//echo "$sql";
 		$result = $this->prepare($sql);
 
 		if($bind){

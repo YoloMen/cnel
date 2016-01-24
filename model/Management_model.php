@@ -158,14 +158,25 @@ Class Management_model extends Model {
         return $this->db->select('PTR_ID, PTR_NOMB ,PTR_PADR , PTR_ESTA', 'SSP_PUESTO_TRABAJO', "PTR_TIPO = 'P' AND PTR_ID='$PTR_ID'", PDO::FETCH_NUM);
     }
 
-  
+     //LISTA DE ASPIRANTES EN UN CONCURSO
+    public function getAspirantesbyCONID($CON_ID) {
+        return $this->db->select('A.ASP_ID,ASP_CEDU, ASP_NOM1, ASP_NOM2, ASP_APE1, ASP_APE2, ASP_FENA', 'SSP_ASPIRANTE A, SSP_ASPIRANTE_CONCURSO C ', "A.ASP_ID = C.ASP_ID AND C.CON_ID='$CON_ID'", PDO::FETCH_NUM);
+    }
      //LISTA DE ASPIRANTES FILTRO POR APROBACIÒN
     public function getAspirantesbyApro($ASP_APRO) {
         return $this->db->select('ASP_ID,ASP_CEDU, ASP_NOM1, ASP_NOM2, ASP_APE1, ASP_APE2, ASP_FENA', 'SSP_ASPIRANTE', "ASP_APRO='$ASP_APRO'", PDO::FETCH_NUM);
     }
-
+    //Función complemenadora para la busqueda de aspirantes donde where es el filtro completo de busqueda
      public function filter_getAspirantes($where) {
     
         return $this->db->select('ASP_ID,ASP_CEDU, ASP_NOM1, ASP_NOM2, ASP_APE1, ASP_APE2, ASP_FENA', 'SSP_ASPIRANTE', "ASP_APRO='S' ".$where, PDO::FETCH_NUM);
+    }
+
+    //Función que inserta SSP_ASPIRANTE_CONCURSO
+     public function setConcursotAspirantes($ASP_DATOS) {
+        if(!$this->db->check('*','SSP_ASPIRANTE_CONCURSO','ASP_ID= ' .$ASP_DATOS['ASP_ID'].' AND CON_ID='.$ASP_DATOS['CON_ID']))
+         return $this->db->insert('SSP_ASPIRANTE_CONCURSO', $ASP_DATOS);
+        else
+            return false;
     }
 }

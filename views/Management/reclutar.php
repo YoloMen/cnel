@@ -127,7 +127,7 @@
 
         <p class="blue-text text-darken-2">Lista de Aspirantes Aceptados</p>
             <div class="col l8 m12 s12 left-align">
-            <a class="waves-effect waves-light btn" onclick="get_aspirantes();"><i class="material-icons left">person_add</i>Agregar Aspirantes</a>
+            <a class="waves-effect waves-light btn"  onclick="get_aspirantes();"><i class="material-icons left">person_add</i>Agregar Aspirantes</a>
             </div>             
         <table class="striped highlight ">
                           
@@ -146,10 +146,10 @@
                                 </tr>
                             </thead>
 
-                            <tbody >
+                            <tbody id="aspiranteConcruso_reclutado" >
 <?php
 
-foreach ($this->data['Aspirantes'] as $key => $value) {
+foreach ($this->data['AspirantesConcurso'] as $key => $value) {
 
 echo' 
 <tr class="center-align">
@@ -161,16 +161,14 @@ echo'
 
 <td>
 <a onclick="ver_concurso(' . $value[0] . ')"> <i class="material-icons small">visibility</i></a>
+<a onclick="ver_concurso(' . $value[0] . ')"> <i class="material-icons small">delete</i></a>
+</td>
 </tr>';
 }
 ?>   
 
                             </tbody>
                         </table>
-
-
-       
-        
 
         </div>
         </div>
@@ -181,10 +179,9 @@ echo'
 
         <div id="aspirantesModal" class="modal">
             <div class="modal-content center-align">
-                   
-        <table class="striped highlight ">
+                  <form id="formResultadoAspirantes"> 
+                    <table class="striped highlight ">
                           
- 
                             <thead>
 
                                 <tr >
@@ -199,34 +196,102 @@ echo'
                                 </tr>
                             </thead>
 
-                            <tbody id="ResultadoAspirantes" >
+                            <tbody id="ResultadoAspirantes_" >
+                            
 <?php
 $hoy = date('yyy-mm-dd');
 foreach ($this->data['Aspirantes'] as $key => $value) {
 
-echo' 
-<tr class="center-align">
-<td id="A_CODE" style="display:none;">' . $value[0] . '</td>
-<td><i class="material-icons light-green-text text-accent-3 small ">label</i></td>
-<td>' . $value[1] . '</td>
-<td>' . $value[2] .' ' . $value[3] .' ' . $value[4] .' '. $value[5] . '</td>
-<td>'. $value[6] .'</td>
+echo' <tr class="center-align">
+    <td id="A_CODE" style="display:none;">' . $value[0] . '</td>
+    <td><i class="material-icons light-green-text text-accent-3 small ">label</i></td>
+    <td>' . $value[1] . '</td>
+    <td>' . $value[2] .' ' . $value[3] .' ' . $value[4] .' '. $value[5] . '</td>
+    <td>'. $value[6] .'</td>
 
-<td>
-<a onclick="ver_concurso(' . $value[0] . ')"> <i class="material-icons teal-text text-lighten-3  small">visibility</i></a>
-<input type="checkbox" id="ch' . $value[0] . '" />
-      <label for="ch' . $value[0] . '"></label>
-</td>
-</tr>';
+    <td>
+    <a onclick="getHojaVida(' . $value[0] . ')"> <i class="material-icons teal-text text-lighten-3  small">visibility</i></a>
+    <input type="checkbox" id="ch' . $value[0] . '" name="ch' . $value[0] . '" value="'. $value[0] . '" />
+          <label for="ch' . $value[0] . '"></label>
+    </td>
+    </tr>';
 }
 ?>   
-
+                           
                             </tbody>
                         </table>
-            </div>
-    
-        </div>        
+                    </form>
 
+            </div>
+
+
+<div class="row ">
+    <div class="col  s12  m12 l12 ">
+
+        <form id="form_fases">
+            <div class="center-align col l12 m6 s6">
+                <div class="center-align col l6 m12 s12">
+                    <a class=" center-align waves-effect waves-light btn blue" id="" onclick="saveAspiranteToConcurso();">Guardar</a>
+                </div> 
+                <div class="center-align col l6 m12 s12">
+                    <a class=" center-align waves-effect waves-light btn blue" onclick="$('#aspirantesModal').closeModal();">Cancelar</a>
+                </div>
+            </div>
+        </form>
+   
+    </div>
+</div>
+
+          
+</div>
+
+<!-- Modal de carga -->
+<div class="modal" id="preload">
+  <div class="modal-content center-align" style="padding-bottom: 50px;">
+  <h5>Cargando...</h5>
+    <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-blue">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-red">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-yellow">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-green">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+</div>
 
     <?php include_once SCRIPT_U; ?> 
 

@@ -49,6 +49,7 @@ Class Management extends Controller {
             $this->view->data += ['Experiencia' => $this->Cmodel->getWorkArea()];
             $this->view->data += ['Discapacidad' => $this->Cmodel->getDisability()];
             $this->view->data += ['Aspirantes' => $this->model->getAspirantesbyApro('S')];
+            $this->view->data += ['AspirantesConcurso' => $this->model->getAspirantesbyCONID($_POST['IDCON_'])];
             $this->view->render($this, 'reclutar');
         }
     }
@@ -355,6 +356,40 @@ Class Management extends Controller {
 
 
     //________________
+    
+    //_INSERTAMOS LOS ASPIRANTES AL CONCURSO
+    public function set_aspirantes_concurso() {
+        $insertados=0;
+        $errores=0;
+        
+        if(isset($_POST['IDCON_']) && isset($_POST['ASP_SELECTED']))
+        {
+            $datos=['CON_ID' => $_POST['IDCON_'], 'ASP_ID' =>""];
+            foreach ($_POST['ASP_SELECTED'] as $key => $value) {
+                $datos['ASP_ID']=$value['value'];
+              
+                if($this->model->setConcursotAspirantes($datos))
+                   $insertados++;
+                   else
+                   $errores++;     
+            }
+            $strMensaje= "".$insertados.' Registros Insertados - '.$errores.' Errores';
+            $datos= ["Mensaje" => $strMensaje];
+         echo json_encode($datos);
+        }
+        
+       // return ['departamentos' => $this->model->getallDepartamentos()];
+    }
+
+    public function JSONgetAspirantesbyCONID(){
+        if(isset($_POST['IDCON_']))
+        echo json_encode(['Mensaje' => 'Registros Obtenidos', 'AspirantesConcurso' => $this->model->getAspirantesbyCONID($_POST['IDCON_'])]);
+        else
+         echo json_encode(['Mensaje' => 'Concurso no encontrado']);
+    }
+
+
+
     //___________obtenemos todos los departamentos en SSP_PUESTO_TRABAJO_______________//
     public function get_allDepartamentos() {
         return ['departamentos' => $this->model->getallDepartamentos()];
