@@ -3,7 +3,9 @@
 Class Management extends Controller {
 
     public function __construct() {
+
         parent:: __construct();
+        //$this->view->render($this, 'index');
     }
 //________________________VISTAS RENDERIZADAS___________________________//
     //Cargamos la vista index del usuario
@@ -302,13 +304,54 @@ Class Management extends Controller {
 
     }
 
-    //_________________reclutamiento__
+    //_________________CONTRUCCION DE LA CONDICION FINAL SEGUN LOS FILTROS DEL reclutamiento__
     public function get_aspirantes_reclutar(){
-            
-         echo json_encode( ['Aspirantes' => $this->model->getAspirantesbyApro('A')]);
+
+        $TotalWhere = "";
+
+        if(isset($_POST['InstruccionFormal']) && !Empty($_POST['InstruccionFormal'])) //TABLA SSP_TITULO         
+        $WhereInstruccionFormal ="SELECT TIT_FK_ASPI FROM SSP_TITULO WHERE " . $this->WhereFilter("TIT_FK_NSTR",$_POST['InstruccionFormal']);
+
+        if(isset($_POST['AreaEstudio']) && !Empty($_POST['AreaEstudio']))   //TABLA SSP_TITULO Y TABLA SSP_CURSO
+        $WhereAreaEstudio= "SELECT T.ASPIRANTE FROM (SELECT CUR_FK_ASPI AS ASPIRANTE FROM SSP_CURSO WHERE " . $this->WhereFilter("CUR_FK_AEST",$_POST['AreaEstudio']). ' UNION '.'  SELECT TIT_FK_ASPI AS ASPIRANTE FROM SSP_TITULO  WHERE ' . $this->WhereFilter("TIT_FK_AEST",$_POST['AreaEstudio']).') as T';      
+
+
+        if(isset($_POST['Experiencia']) && !Empty($_POST['Experiencia']))   //TABLA SSP_experiencia_LABORAL  
+        $WhereExperiencia = "SELECT ELA_FK_ASPI FROM SSP_EXPERIENCIA_LABORAL WHERE " . $this->WhereFilter("ELA_FK_ARTR",$_POST['Experiencia']);      
+
+        if(isset($_POST['Discapacidad']) && !Empty($_POST['Discapacidad']))   //TABLA SSP_ASPIRANTE_DISCAPACIDAD  
+        $WhereIDiscapacidad= "SELECT ADI_FK_ASID FROM SSP_ASPIRANTE_DISCAPACIDAD WHERE " . $this->WhereFilter("ADI_FK_TIDI",$_POST['Discapacidad']);
+
+
+        if(isset($WhereInstruccionFormal))
+        $TotalWhere.= ' AND ASP_ID in ('.$WhereInstruccionFormal.')';
+
+        if(isset($WhereAreaEstudio))
+        $TotalWhere.= ' AND ASP_ID in ('.$WhereAreaEstudio.')';
+
+        if(isset($WhereExperiencia))
+        $TotalWhere.= ' AND ASP_ID in ('.$WhereExperiencia.')';
+
+        if(isset($WhereIDiscapacidad))
+        $TotalWhere.= ' AND ASP_ID in ('.$WhereIDiscapacidad.')';
+
+
+        
+        echo json_encode(['Aspirantes' => $this->model->filter_getAspirantes($TotalWhere)]);
+
     } 
-       
-    
+
+      // FUNCION QUE ARMA EL WHERE PARA CADA OPCIÓN ESTABLECIDA COMO FILTRO 
+    private function WhereFilter($campo,$arrayV,$condicion=" OR "){
+         $Where="";
+        foreach ($arrayV as $key => $value) {
+          $Where.= $campo." = ".$value['value'];
+          if($key<count($arrayV)-1)
+            $Where.=$condicion;
+        }
+        return $Where;
+
+    }
 
 
     //________________

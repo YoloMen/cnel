@@ -22,22 +22,24 @@
 
             <li>
                 <div class="collapsible-header left-align"><i class="material-icons">games</i>
-                    <input type="checkbox" class="filled-in" id="if"  />
-                    <label for="if" style="margin-top: 12px;">Instrucción Formal</label>
+                    <input type="checkbox" class="filled-in" id="instruccionF"  />
+                    <label for="instruccionF" style="margin-top: 12px;">Instrucción Formal</label>
                 </div>
                 <div class="collapsible-body">
                     <div class="row">
-                    <div class="col l12">   
+                    <div  class="col l12">   
+                    <form id="InstruccionFormal">
                     <?php 
                     foreach ($this->data['Instruccion'] as $key => $value) {
                             echo '
                             <div class="col l6 m12 s12 left-align  ">   
-                            <input type="checkbox" class="filled-in" id="if'.$value[0].'" value="'.$value[0].'"  />
-                            <label for="if'.$value[0].'" style="margin-top: 12px;">'.$value[1].'</label>
+                            <input type="checkbox" name="instruccionF'.$value[0].'" class="filled-in" id="instruccionF'.$value[0].'" value="'.$value[0].'"  />
+                            <label for="instruccionF'.$value[0].'" style="margin-top: 12px;">'.$value[1].'</label>
                             </div>';
                         }
 
                      ?>
+                     </form>
                     </div>
                     </div>
                 </div>
@@ -51,16 +53,18 @@
                 <div class="collapsible-body">
                     <div class="row">
                     <div class="col l12">   
+                    <form id="AreaEstudio">
                     <?php 
                     foreach ($this->data['AreaEstudio'] as $key => $value) {
                             echo '
                             <div class="col l6 m12 s12 left-align  ">   
-                            <input type="checkbox" class="filled-in" id="ae'.$value[0].'" value="'.$value[0].'"  />
+                            <input type="checkbox" name="ae'.$value[0].'" class="filled-in" id="ae'.$value[0].'" value="'.$value[0].'"  />
                             <label for="ae'.$value[0].'" style="margin-top: 12px;">'.$value[1].'</label>
                             </div>';
                         }
 
                      ?>
+                     </form>
                     </div>
                     </div>
                 </div>
@@ -74,16 +78,18 @@
                 <div class="collapsible-body">
                     <div class="row">
                     <div class="col l12">   
+                    <form id="ExperienciaLaboral">
                     <?php 
                     foreach ($this->data['Experiencia'] as $key => $value) {
                             echo '
                             <div class="col l6 m12 s12 left-align  ">   
-                            <input type="checkbox" class="filled-in" id="el'.$value[0].'" value="'.$value[0].'"  />
+                            <input type="checkbox" name ="el'.$value[0].'" class="filled-in" id="el'.$value[0].'" value="'.$value[0].'"  />
                             <label for="el'.$value[0].'" style="margin-top: 12px;">'.$value[1].'</label>
                             </div>';
                         }
 
                      ?>
+                     </form>
                     </div>
                     </div>
                 </div>
@@ -97,16 +103,18 @@
                 <div class="collapsible-body">
                     <div class="row">
                     <div class="col l12">   
+                    <form id="DiscapacidadAspirante">
                     <?php 
                     foreach ($this->data['Discapacidad'] as $key => $value) {
                             echo '
                             <div class="col l6 m12 s12 left-align  ">   
-                            <input type="checkbox" class="filled-in" id="di'.$value[0].'" value="'.$value[0].'"  />
+                            <input type="checkbox" name="di'.$value[0].'" class="filled-in" id="di'.$value[0].'" value="'.$value[0].'"  />
                             <label for="di'.$value[0].'" style="margin-top: 12px;">'.$value[1].'</label>
                             </div>';
                         }
 
                      ?>
+                     </form>
                     </div>
                     </div>
                 </div>
@@ -119,7 +127,7 @@
 
         <p class="blue-text text-darken-2">Lista de Aspirantes Aceptados</p>
             <div class="col l8 m12 s12 left-align">
-            <a class="waves-effect waves-light btn"><i class="material-icons left">person_add</i>Agregar Aspirantes</a>
+            <a class="waves-effect waves-light btn" onclick="get_aspirantes();"><i class="material-icons left">person_add</i>Agregar Aspirantes</a>
             </div>             
         <table class="striped highlight ">
                           
@@ -140,7 +148,7 @@
 
                             <tbody >
 <?php
-$hoy = date('yyy-mm-dd');
+
 foreach ($this->data['Aspirantes'] as $key => $value) {
 
 echo' 
@@ -171,7 +179,7 @@ echo'
 
 <!-- Modal -->
 
-        <div id="cargo_trabajo" class="modal">
+        <div id="aspirantesModal" class="modal">
             <div class="modal-content center-align">
                    
         <table class="striped highlight ">
@@ -191,7 +199,7 @@ echo'
                                 </tr>
                             </thead>
 
-                            <tbody >
+                            <tbody id="ResultadoAspirantes" >
 <?php
 $hoy = date('yyy-mm-dd');
 foreach ($this->data['Aspirantes'] as $key => $value) {
@@ -205,7 +213,10 @@ echo'
 <td>'. $value[6] .'</td>
 
 <td>
-<a onclick="ver_concurso(' . $value[0] . ')"> <i class="material-icons small">visibility</i></a>
+<a onclick="ver_concurso(' . $value[0] . ')"> <i class="material-icons teal-text text-lighten-3  small">visibility</i></a>
+<input type="checkbox" id="ch' . $value[0] . '" />
+      <label for="ch' . $value[0] . '"></label>
+</td>
 </tr>';
 }
 ?>   
@@ -219,9 +230,12 @@ echo'
 
     <?php include_once SCRIPT_U; ?> 
 
-    <?php include_once JSPDF ?>
+    <?php// include_once JSPDF ?>
     <script type="text/javascript">var IDCONC=<?=  $concurso[0][0];?></script>
+    <script type="text/javascript">var URL='<?=  URL;?>';</script>
+    <script src="<?php echo URL; ?>/public/js/globalJS.js"></script>
     <script src="<?= URL . 'public/js/controllerGestionAspirante.js' ?>"></script>
+   
     </body>
 
 </html>
