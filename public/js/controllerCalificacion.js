@@ -8,3 +8,9 @@
     $("#IDCON__").val(id); 
     $("#calificar_").trigger("click");
   }
+
+  $('document').ready(function(){
+  $(".button-collapse").sideNav();
+  $("#mcalificaciones").attr("class","active");
+    
+  });

@@ -158,8 +158,10 @@ Class Management_model extends Model {
         return $this->db->select('PTR_ID, PTR_NOMB ,PTR_PADR , PTR_ESTA', 'SSP_PUESTO_TRABAJO', "PTR_TIPO = 'P' AND PTR_ID='$PTR_ID'", PDO::FETCH_NUM);
     }
 
-    public function updatePersonalInformation($data, $id) {
-        return $this->db->update('SSP_ASPIRANTE', $data, 'ASP_ID = ' . $id, 'ASP_FMOD = null() ', true);
+  
+     //LISTA DE ASPIRANTES FILTRO POR APROBACIÒN
+    public function getAspirantesbyApro($ASP_APRO) {
+        return $this->db->select('ASP_ID,ASP_CEDU, ASP_NOM1, ASP_NOM2, ASP_APE1, ASP_APE2, ASP_FENA', 'SSP_ASPIRANTE', "ASP_APRO='$ASP_APRO'", PDO::FETCH_NUM);
     }
 
 }

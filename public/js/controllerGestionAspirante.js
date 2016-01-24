@@ -1,3 +1,7 @@
+  var optintreuccion = {
+    
+  };
+
   function ver_concurso(id)
   {
     $("#IDCON_").val(id); 
@@ -5,6 +9,10 @@
   }
     function reclutamiento(id)
   {
-    $("#IDCON_").val(id); 
+    $("#IDCON_2").val(id); 
     $("#reclutar").trigger("click");
   }
+
+cargar_aspirantes(){
+
+}

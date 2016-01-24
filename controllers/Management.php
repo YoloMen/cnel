@@ -33,14 +33,20 @@ Class Management extends Controller {
     }
      //Cargamos vista de concursos por reclutar 
     public function reclutamiento() {
-        $this->view->DATA=$this->model->getallConcurso("CON_ESTA='I'"); //Devuelve concursos inicializados
+        $this->view->data=$this->model->getallConcurso("CON_ESTA='I'"); //Devuelve concursos inicializados
         $this->view->render($this, 'reclutamiento');
     }
     //Cargamos vista de reclutamiento de personal
     public function reclutar() {
         if(isset($_POST['IDCON_']))
         { 
-            $this->view->data =$this->datos_concurso($_POST['IDCON_']);
+          $this->castModel('Aspirante');
+             $this->view->data =$this->datos_concurso($_POST['IDCON_']);
+            $this->view->data += ['Instruccion' => $this->Cmodel->getEducationLevel()];
+            $this->view->data += ['AreaEstudio' => $this->Cmodel->getStudyArea()];
+            $this->view->data += ['Experiencia' => $this->Cmodel->getWorkArea()];
+            $this->view->data += ['Discapacidad' => $this->Cmodel->getDisability()];
+            $this->view->data += ['Aspirantes' => $this->model->getAspirantesbyApro('S')];
             $this->view->render($this, 'reclutar');
         }
     }
@@ -296,13 +302,16 @@ Class Management extends Controller {
 
     }
 
-    public function cabecera_concurso() {
-        $this->view->data = $this->get_allDepartamentos();
-        if(isset($_POST['METHOD']))
-            echo $_POST['METHOD'];
-        $this->view->render($this, 'cabecera_concurso');
-    }
+    //_________________reclutamiento__
+    public function get_aspirantes_reclutar(){
+            
+         echo json_encode( ['Aspirantes' => $this->model->getAspirantesbyApro('A')]);
+    } 
+       
+    
 
+
+    //________________
     //___________obtenemos todos los departamentos en SSP_PUESTO_TRABAJO_______________//
     public function get_allDepartamentos() {
         return ['departamentos' => $this->model->getallDepartamentos()];
@@ -316,6 +325,8 @@ Class Management extends Controller {
         $data = [ "PTR_ID" => "'" . $_POST['PUESTO'] . "'"];
         echo json_encode(['puestos' => $this->model->getallCargos($data)]);
     }
+
+  
 
     private function Mayus($variable) {
         $variable = strtr(strtoupper($variable), "àèìòùáéíóúçñäëïöü", "ÀÈÌÒÙÁÉÍÓÚÇÑÄËÏÖÜ");

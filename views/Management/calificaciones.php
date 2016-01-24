@@ -79,5 +79,12 @@
         <script src="<?= URL . 'public/js/controllerCalificacion.js' ?>"></script>
     </body>
 
-</html>
 
+</html>
+<script type="text/javascript">
+    $( document ).ready(function(){
+             $(".button-collapse").sideNav();
+             $("#mcalificaciones").attr("class","active");
+  })
+     
+</script>

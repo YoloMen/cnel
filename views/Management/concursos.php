@@ -8,7 +8,7 @@
           <?php include_once MENU_F; ?>
             <div class="row ">
                 <div class="container ">
-                    <button class="btn waves-effect waves-light" type="submit" name="action" onclick="location.href='<?php echo URL; ?>management/creaconcurso_1';">Crear
+                    <button class="btn waves-effect waves-light" type="submit" name="action" onclick="location.href='<?php echo URL; ?>management/creaconcurso';">Crear
                         <i class="material-icons right">send</i>
                     </button>
                     <button class="btn waves-effect waves-light" type="submit" name="action" onclick="location.href='<?php echo URL; ?>management/calendario';">Calendario
@@ -17,34 +17,34 @@
                 </div>
             </div>
            
-            <div class="row ">
-                <div class="container ">
+   <br>
+        <div class="row ">
+                <div class="col  s12  m12 l12 ">
+                    <div class="container z-depth-1" style="padding: 10px;">
+                        <div class="col l12 m12 s12 center-align ">
+                            <h5 class="blue-text text-darken-2">Poceso de Reclutamiento</h5>
+                        </div>
+                        <br>
+                        <br>
+                        <table class="striped highlight ">
+                            <thead>
 
-                    <div class="col  s12  m12 l12 z-depth-1">
-                        <div class="container " style="padding-bottom:100px;">
-
-                            <br>
-                            <br>
-                            
-                            <table class="striped highlight ">
-                                <thead>
-
-                                    <tr >
+                                <tr >
                                     <th data-field="id">#</th>
                                     <th data-field="id">Código</th>
                                     <th data-field="price">Nombre</th>
+                                    <th data-field="name">Estado</th>
                                     <th data-field="date">Fecha Inicio</th>
                                     <th data-field="date">Fecha Fin</th>
-                                    <th data-field="name">Estado</th>
                                     <th data-field="name"></th>
 
 
-                                    </tr>
-                                </thead>
+                                </tr>
+                            </thead>
 
-                                <tbody id="">
+                            <tbody >
 <?php
-var_dump($this->DATA);
+//var_dump($this->DATA);
 foreach ($this->DATA['Concursos'] as $key => $value) {
   
  
@@ -88,16 +88,11 @@ foreach ($this->DATA['Concursos'] as $key => $value) {
 }
 ?>   
 
-                                </tbody>
-                            </table>
- 
-      
-                           
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-         </div>
- 
+        </div> 
 
 <form action="<?php echo URL; ?>management/creaconcurso" method="POST"> 
 <input type="hidden" name="IDCON_" id="IDCON_" value=""> 

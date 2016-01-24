@@ -17,7 +17,17 @@ Class Controller{
 			require $path;
 			$this->model = new $model();
 		}
-	}	
+	}
+
+	public function castModel($Controller){
+		$model = $Controller."_model";		
+		$path  = "model/".$model.".php";
+
+		if(file_exists($path)){
+			require $path;
+			$this->Cmodel = new $model();
+		}
+	}		
 
 
 }

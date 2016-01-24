@@ -316,7 +316,7 @@
             <div class="modal-content center-align">
                 <h5>Configuración Departamento</h5>
             </div>
-            <div class="modal-footer">
+            <div class="modal-content center-align">
                 <div class="row ">
 
                     <div class="col  s12  m12 l12 ">
@@ -394,30 +394,24 @@
             <div class="modal-content center-align">
                 <h5>Puesto de Trabajo</h5>
             </div>
-            <div class="modal-footer">
+            <div class="modal-content center-align">
                 <div class="row ">
 
 
                     <div class="col  s12  m12 l12 ">
                         <form id="frmCargo">
-                            <div class="container " style="padding-bottom:100px;">
+                         
 
 
+                                      <div class="input-field col s12 l4" class="ui-widget">
+                                        <i class="mdi-action-search prefix"></i>
+                                        <input id="CNOMB" Did="" name="CNOMB"  required >
+                                        </div>  
+                        
+                          
+                               <div class="input-field col s12 l4" class="ui-widget">
 
-
-
-
-                                <div class="col l4 m4 s12">
-                                    <div class="input-field">
-
-                                        <input id="CNOMB" Did="" name="CNOMB" type="text" class="validate">
-                                        <label id= "lCNOMB" for="nombfmo">Nombre Departamento</label>
-                                    </div>
-
-                                </div>
-                                <div class="input-field col l4 m4 s12">
-
-                                    <select name="CPADR" id="CPADR" class="browser-default" required >
+                                    <select name="CPADR" id="CPADR" class="browser-default" required class="ui-widget">
 
 
                                         <?php
@@ -427,7 +421,6 @@
                                             // echo '<option value="'.$value[$key][0].'">'.$value[$key][1].'</option>';
                                         }
                                         ?>
-
 
 
 
@@ -456,7 +449,7 @@
                                 </div>
 
 
-                            </div>
+                           
                         </form> 
 
 
@@ -478,12 +471,10 @@
     <script src="<?php echo URL; ?>/public/js/globalJS.js"></script>
     <script src="<?php echo URL; ?>/public/js/lunr.min.js"></script>
     <script>var URL = '<?= URL ?>';</script>
-    <script>var opdepartamento = '<?php if ($concurso != "") echo $concurso[0][6];
-else echo ""; ?>';
-        var opdepartamentopadr = '<?php if ($concurso != "") echo $concurso[0][13];
-else echo ""; ?>';
-        var CONCID_ = '<?php if ($concurso != "") echo $concurso[0][0];
-else echo ""; ?>'
+    <script>
+        var opdepartamento = '<?php if ($concurso != "") echo $concurso[0][6]; else echo ""; ?>';
+        var opdepartamentopadr = '<?php if ($concurso != "") echo $concurso[0][13]; else echo ""; ?>';
+        var CONCID_ = '<?php if ($concurso != "") echo $concurso[0][0]; else echo ""; ?>'
     </script>
 
 
@@ -502,7 +493,7 @@ else echo ""; ?>'
             var obj = JSON.parse(response);
             CONCID_ = obj['Concurso_'];
             console.log(obj);
-// Materialize.toast(obj['Mensaje'],2000);
+            Materialize.toast(obj['Mensaje'],2000);
         }
 
 
